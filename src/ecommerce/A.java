@@ -1,5 +1,4 @@
 package ecommerce;
 
-public class A {
-
+public class Agencia {
 }
