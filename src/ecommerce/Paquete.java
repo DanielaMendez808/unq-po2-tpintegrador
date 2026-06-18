@@ -19,10 +19,9 @@ public class Paquete implements Item{
 	public String descripcion() {
 		return "No se que poner aca, consultar";
 	}
-	public double precioBaseCalculado() {
+	public double precioBaseCalculado();
 		//sumar el precio de todos los productos que lo componen
 	}
-	public double precioFinalCalculado() {
+	public double precioFinalCalculado();
 		//aplicar descuento de paquete a la suma de todos los precios
-	}
 }

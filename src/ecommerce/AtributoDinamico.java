@@ -1,9 +1,14 @@
 package ecommerce;
 
 public class AtributoDinamico {
-	String Nombre;
-	String Valor;
+	String nombre;
+	String valor;
 	public String getNombre() {
-		return this.Nombre;
+		return this.nombre;
+	}
+	public AtributoDinamico(String nombre, String valor) {
+		super();
+		this.nombre=nombre;
+		this.valor=valor;
 	}
 }
