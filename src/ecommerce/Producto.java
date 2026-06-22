@@ -2,6 +2,8 @@ package ecommerce;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Producto implements Item {
 	int SKU;
@@ -12,7 +14,7 @@ public class Producto implements Item {
 	Double precio;
 	Double precioFinal;// el precio final es porque puede tener un descuento en particular este item,
 						// ver ese caso
-	ArrayList<AtributoDinamico> AtributosDinamicos = new ArrayList<>();
+	Set <AtributoDinamico> AtributosDinamicos = new HashSet<>();
 	final ArrayList<String> AtributosFijos = new ArrayList<>(
 			Arrays.asList("SKU", "nombre", "marca", "categoria", "precio", "precioFinal","peso"));
 	// creo un array con todos los nombres de los atributos fijos para lo del
@@ -28,22 +30,29 @@ public class Producto implements Item {
 		this.precioFinal=precioFinal;
 		
 	}
-	
-	public ArrayList<AtributoDinamico> getAtributosDinamicos() {
+
+	public Set<AtributoDinamico> getAtributosDinamicos() {
 	    return AtributosDinamicos;
 	}
 	
 	public void agregarAtributoDinamico(AtributoDinamico atributoNuevo) {
 		if (this.nuevoAtributoNoExisteYa(atributoNuevo)) {
 			AtributosDinamicos.add(atributoNuevo);
+		} else { throw new RuntimeException("Error: El atributo " + atributoNuevo.getNombre() + "ya existe");
 		}
 	}
 
 	public boolean nuevoAtributoNoExisteYa(AtributoDinamico nuevoAtributo) {
 		return (!AtributosFijos.contains(nuevoAtributo.getNombre()));
 	}
-
-	public void validarProducto(int SKU) {
+	public String getNombre() {
+		return nombre;
+	}
+	public double getPeso() {
+		return peso;
+	}
+	public boolean validarProducto() {
+		return getPeso()>=0;
 
 	}
 	public String descripcion() {
