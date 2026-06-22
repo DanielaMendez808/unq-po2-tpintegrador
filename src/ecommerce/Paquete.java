@@ -4,13 +4,43 @@ import java.util.ArrayList;
 
 public class Paquete implements Item{
 	String nombre;
-	ArrayList <Item> items = new ArrayList <>();
+	ArrayList <Item> itemsDelPaquete = new ArrayList <>();
 	double descuento;
 	public void agregarItemAPaquete(Item item) {
-		items.add(item);
+		validarQueElItemNoExisteYa(item);
+		validarQueHayStockDelItem(item);
+		itemsDelPaquete.add(item);
+	}
+	public void validarQueElItemNoExisteYa(Item item) {
+		if(itemEstaEnCarrito(item)) {
+			throw new RuntimeException("Error: El item ya esta en el carrito");
+		}
+	}
+	public boolean itemEstaEnCarrito(Item item) {
+		return itemsDelPaquete.contains(item);
+	}
+	public void validarQueHayStockDelItem(Item item){
+		if(!item.tieneStock()) {
+			throw new RuntimeException("Error: No hay stock de " + item.nombre());
+		}
+	public boolean tieneStock() {
+		boolean porAhoraHayStock = false;
+		int iterador = 0;
+		while (iterador !=  itemsDelPaquete.size()) {
+			porAhoraHayStock = porAhoraHayStock && itemsDelPaquete.get(iterador).tieneStock();
+			iterador = iterador + 1;
+		}
+		return porAhoraHayStock;
+		
 	}
 	public void eliminarItemDePaquete(Item item) {
-		items.remove(item);
+		validarQueElItemExisteEnElPaquete(item);
+		itemsDelPaquete.remove(item);
+	}
+	public void validarQueElItemExisteEnElPaquete(Item item) {
+		if(!itemEstaEnCarrito(item)) {
+			throw new RuntimeException("Error: El item no esta en el carrito");
+		}
 	}
 	public String nombre() {
 		return nombre;
@@ -22,8 +52,8 @@ public class Paquete implements Item{
 		//sumar el precio de todos los productos que lo componen
 		double precioTemporal = 0;
 		int iterador = 0;
-		while (iterador != items.size()) {
-			precioTemporal = precioTemporal + items.get(iterador).precioBaseCalculado();
+		while (iterador !=  itemsDelPaquete.size()) {
+			precioTemporal = precioTemporal + itemsDelPaquete.get(iterador).precioBaseCalculado();
 			iterador = iterador + 1;
 		}
 		return precioTemporal;

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Producto implements Item {
+	int stock;
 	int SKU;
 	String nombre;
 	String marca;
@@ -51,10 +52,35 @@ public class Producto implements Item {
 	public double getPeso() {
 		return peso;
 	}
-	public boolean validarProducto() {
-		return getPeso()>=0;
-
+	public void validarProducto() {
+		validarSiTieneAtributosFijosVacios();
+			//algo, nose si tiene que ser void o boolean
+			
 	}
+	public void validarSiTieneAtributosFijosVacios() {
+		if (tieneAtributosFijosVacios()) {
+			throw new RuntimeException("Error: Un atributo fijo esta vacio");
+		}
+	}
+	public void validarSiTieneAtributosDinamicosVacios() {
+		if(tieneAtributosDinamicosVacios()) {
+			throw new RuntimeException("Error: Un atributo dinamico esta vacio");
+		}
+	}
+	
+	public boolean tieneAtributosFijosVacios() {
+		return nombre.isBlank() && marca.isBlank() && categoria.isBlank(); 
+		
+	}
+	public boolean tieneAtributosDinamicosVacios() {
+		for (AtributoDinamico atributo : AtributosDinamicos) { //por cada uno quiero que
+			if (atributo.getValor().isBlank()) {
+				return true; // encontre algun valor dinamico vacio
+			}
+		}
+		return false; // termine de recorrer todos los valores del set y ninguno tenia valores vacios
+	}
+	
 	public String descripcion() {
 		return "No se que poner aca, consultar";
 	}
@@ -74,6 +100,12 @@ public class Producto implements Item {
 		//esto es lo del descuento individual, nada que ver con el composite
 		setPrecioFinal(this.getPrecioFinal()*(1-descuentoDeProducto));
 		
+	}
+	public int getStock() {
+		return this.stock;
+	}
+	public boolean tieneStock() {
+		return (getStock()>0);
 	}
 	
 }

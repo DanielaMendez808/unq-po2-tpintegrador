@@ -4,6 +4,9 @@ public class AtributoDinamico {
 	String nombre;
 	String valor;
 
+	public String getValor() {
+		return this.valor;
+	}
 	public String getNombre() {
 		return this.nombre;
 	}
