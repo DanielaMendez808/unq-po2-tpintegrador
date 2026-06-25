@@ -106,4 +106,7 @@ public class Paquete implements Item{
 	public void setStock(int nuevoStock) {
 		this.stock=nuevoStock;
 	}
+	public double peso() {
+		return itemsDelPaquete.mapToDouble(item->item.peso()).sum();
+	}
 }

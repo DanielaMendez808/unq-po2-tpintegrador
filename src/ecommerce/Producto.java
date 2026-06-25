@@ -107,7 +107,7 @@ public class Producto implements Item {
 		return nombre;
 	}
 
-	public double getPeso() {
+	public double peso() {
 		return peso;
 	}
 

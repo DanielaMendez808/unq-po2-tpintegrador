@@ -1,21 +1,16 @@
 package ecommerce;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Pedido {
 	private MetodoDeEnvio metodoDeEnvio;
 	EstadoDePedido estadoActual;
-	ArrayList <Item> carrito = new ArrayList <>();
+	List <Item> carrito = new ArrayList <>();
 	Direccion direccionDeEntrega;
 	
 	public double precioAPagar() {
-		double precioTemporal = 0;
-		int iterador = 0;
-		while (iterador != carrito.size()) {
-			precioTemporal = precioTemporal + carrito.get(iterador).precioBaseCalculado();
-			iterador = iterador + 1;
-		}
-		return precioTemporal;
+		return carrito.stream().mapToDouble(item->item.precioBaseCalculado()).sum();
 		
 	}
 	public void setEstadoDePedido(EstadoDePedido nuevoEstado) {
@@ -34,15 +29,15 @@ public class Pedido {
         this.metodoDeEnvio = metodo;
     }
 	
-	public float getPesoTotal() {
-		return 0;//hacer
+	public double getPesoTotal() {
+		return return carrito.stream().mapToDouble(item->item.getPeso()).sum();
 	}
 	
 	public Direccion getDireccionDeEntrega() {
 		return direccionDeEntrega;
 	}
 	
-	public ArrayList<Item> getCarrito() {
+	public List<Item> getCarrito() {
 		return carrito;
 	}
 	

@@ -8,4 +8,5 @@ public interface Item {
 	public void incrementarStock();
 	public void decrementarStock();
 	public void validarQueHayStockDelItem();
+	public double peso();
 }
