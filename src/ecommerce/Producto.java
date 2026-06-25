@@ -52,18 +52,18 @@ public class Producto implements Item {
 
 	public void agregarAtributoDinamico(AtributoDinamico atributoNuevo) {
 		this.validarAtributoDinamico(atributoNuevo);
-		this.verificarQueElAtributoNoExisteAntes(atributoNuevo);
+		this.verificarQueElAtributoNoExisteAntesEnElProducto(atributoNuevo);
 		AtributosDinamicos.add(atributoNuevo);
 	}
 
-	public void verificarQueElAtributoNoExisteAntes(AtributoDinamico atributoNuevo) {
-		if (this.existeAtributoDinamicoNuevo(atributoNuevo)) {
+	public void verificarQueElAtributoNoExisteAntesEnElProducto(AtributoDinamico atributoNuevo) {
+		if (this.existeAtributoDinamicoNuevoEnElProducto(atributoNuevo)) {
 			throw new RuntimeException(
 					"Error: El atributo " + atributoNuevo.getNombre() + "ya existe en el producto" + this.nombre());
 		}
 	}
 
-	public boolean existeAtributoDinamicoNuevo(AtributoDinamico nuevoAtributo) {
+	public boolean existeAtributoDinamicoNuevoEnElProducto(AtributoDinamico nuevoAtributo) {
 		return (AtributosFijos.contains(nuevoAtributo.getNombre()));
 	}
 
@@ -77,14 +77,6 @@ public class Producto implements Item {
 	}
 
 	/////////////////////STOCK//////////////////////////////
-	public int getStock() {
-		return this.stock;
-	}
-	
-	public void setStock(int nuevoStock) {
-		this.stock = nuevoStock;
-	}
-	
 	public boolean tieneStock() {
 		return (getStock() > 0);
 	}
@@ -139,6 +131,14 @@ public class Producto implements Item {
 	public String nombre() { // getter de nombre
 		return nombre;
 	}
+	public int getStock() {
+		return this.stock;
+	}
+	
+	public void setStock(int nuevoStock) {
+		this.stock = nuevoStock;
+	}
+	
 
 
 }

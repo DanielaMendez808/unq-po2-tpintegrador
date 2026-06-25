@@ -69,12 +69,27 @@ public class Paquete implements Item{
 			throw new RuntimeException("Error: No hay stock para armar el paquete " + this.nombre());
 		}
 	}
-	public void validarQueHayStockDelItem() {
+	public void validarQueHayStockDelItem() { //interfaz
 		if(!this.tieneStock()) {
 			throw new RuntimeException("No hay stock de " +this.nombre());
 		}
 	}
-///////////////////////////////////////////////////////////////////////////////////////////////////////
+	public boolean tieneStock() {
+		return (getStock()>0);
+	}
+	public void decrementarStock() {
+		setStock( getStock() + -1);
+	}
+
+///////////////////////////////PRECIOS//////////////////////////////////////////////////////////////////////
+	public double precioDePaquete() {
+		return itemsDelPaquete.stream().mapToDouble(Item -> Item.precioBaseCalculado()).sum();
+	}
+	public double precioBaseCalculado(){
+		return this.precioDePaquete()* (1-this.descuento);
+		//aplicar descuento de paquete a la suma de todos los precios
+	}
+//////////////////////////////////GETTERS Y SETTERS/////////////////////////////////////////////////////////
 	public String nombre() {
 		return nombre;
 	}
@@ -84,20 +99,6 @@ public class Paquete implements Item{
 	public void setDescripcion ( String nuevaDescripcion) {
 		this.descripcion=nuevaDescripcion;
 	}
-	public double precioDePaquete() {
-		//sumar el precio de todos los productos que lo componen
-		double precioTemporal = 0;
-		int iterador = 0;
-		while (iterador !=  itemsDelPaquete.size()) {
-			precioTemporal = precioTemporal + itemsDelPaquete.get(iterador).precioBaseCalculado();
-			iterador = iterador + 1;
-		}
-		return precioTemporal;
-	}
-	public double precioBaseCalculado(){
-		return this.precioDePaquete()* (1-this.descuento);
-			//aplicar descuento de paquete a la suma de todos los precios
-	}
 
 	public int getStock() {
 		return this.stock;
@@ -105,11 +106,4 @@ public class Paquete implements Item{
 	public void setStock(int nuevoStock) {
 		this.stock=nuevoStock;
 	}
-	public boolean tieneStock() {
-		return (getStock()>0);
-	}
-	public void decrementarStock() {
-		setStock( getStock() + -1);
-	}
 }
-
