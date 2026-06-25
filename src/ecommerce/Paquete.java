@@ -7,7 +7,7 @@ public class Paquete implements Item{
 	String nombre;
 	String descripcion;
 	int stock;
-	List <Item> itemsDelPaquete;
+	List <Item> itemsDelPaquete = new ArrayList<>();
 	double descuento;
 	public void agregarItemAPaquete(Item item) {
 		validarQueElItemNoExisteYa(item);
@@ -21,20 +21,6 @@ public class Paquete implements Item{
 	}
 	public boolean itemEstaEnPaquete(Item item) {
 		return itemsDelPaquete.contains(item);
-	}
-	public void validarQueHayStockDelItem(Item item){
-		if(!item.tieneStock()) {
-			throw new RuntimeException("Error: No hay stock de " + item.nombre());}
-		}
-	public boolean existeStockDeCadaItemEnPaquete() {
-		boolean porAhoraHayStockDeTodo = true;
-		int iterador = 0;
-		while (iterador !=  itemsDelPaquete.size()) {
-			porAhoraHayStock = porAhoraHayStock && itemsDelPaquete.get(iterador).tieneStock();
-			iterador = iterador + 1;
-		}
-		return porAhoraHayStock;
-		
 	}
 	public void eliminarItemDePaquete(Item item) {
 		validarQueElItemExisteEnElPaquete(item);
@@ -68,7 +54,29 @@ public class Paquete implements Item{
 		return this.precioDePaquete()* (1-this.descuento);
 			//aplicar descuento de paquete a la suma de todos los precios
 	}
-
+	//public void validarQueHayStockDelItem(){
+	//	if(!this.tieneStock()) {
+	//		throw new RuntimeException("Error: No hay stock de " + this.nombre());}
+	//}
+	/////////////////////////////////////////
+	public void incrementarStock() {
+		this.validarQueExisteStockParaArmarPaquete();
+		this.decrementarStockDeCadaItemDePaquete();
+		setStock( getStock() + 1);
+		
+	}
+	public void decrementarStockDeCadaItemDePaquete() {
+		itemsDelPaquete.stream().forEach(item-> item.decrementarStock());
+	}
+	public boolean existeStockDeCadaItemEnPaquete() {
+		return itemsDelPaquete.stream().allMatch(item ->item.tieneStock());
+		
+	}
+	public void validarQueExisteStockParaArmarPaquete() {
+		if(!this.existeStockDeCadaItemEnPaquete()) {
+			throw new RuntimeException("Error: No hay stock para armar el paquete " + this.nombre());
+		}
+	}
 
 	public int getStock() {
 		return this.stock;
@@ -78,6 +86,9 @@ public class Paquete implements Item{
 	}
 	public boolean tieneStock() {
 		return (getStock()>0);
+	}
+	public void decrementarStock() {
+		setStock( getStock() + -1);
 	}
 }
 

@@ -6,4 +6,6 @@ public interface Item {
 	public double precioBaseCalculado();
 	public boolean tieneStock();
 	public void incrementarStock();
+	public void decrementarStock();
+	public void validarQueHayStockDelItem();
 }
