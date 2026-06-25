@@ -101,7 +101,7 @@ public class Producto implements Item {
 	public void setPrecioFinal(double nuevoPrecioFinal) {
 		precioFinal=nuevoPrecioFinal;
 	}
-	public String nombre() {
+	public String nombre() { //getter de nombre
 		return nombre;
 	}
 	public void aplicarDescuento(double descuentoDeProducto) {
@@ -118,5 +118,12 @@ public class Producto implements Item {
 	public boolean tieneStock() {
 		return (getStock()>0);
 	}
-	
+	public void validarQueHayStockDelItem() {
+		if(!this.tieneStock()) {
+			throw new RuntimeException("No hay stock de " +this.getNombre());
+			}
+	}
+	public void decrementarStock() {
+		setStock( getStock() -1);
+	}
 }
