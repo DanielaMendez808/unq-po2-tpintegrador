@@ -5,13 +5,18 @@ public class Borrador extends EstadoDePedido{
 		super(pedido);
 	}
 	public void agregarItem(Item item ) {
-		
+		item.validarQueHayStockDelItem();
+		pedido.getCarrito().add(item);
+		item.decrementarStock();
 	}
 	public void quitarItem(Item item) {
+		pedido.validarQueElItemEstaEnElCarrito(item);
+		item.incrementarStock();
+		pedido.getCarrito().remove(item);
 		
 	}
 	public void confirmar() {
-		pedido.decrementarStock()
+		pedido.decrementarStock();
 		pedido.setEstadoDePedido(new Confirmado(pedido));
 	}
 	public void cancelar() {

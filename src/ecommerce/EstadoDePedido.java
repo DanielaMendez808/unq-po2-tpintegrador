@@ -7,7 +7,7 @@ public abstract class EstadoDePedido { //mantener como abstract class??
 		this.pedido=pedido;
 	}
 	public void confirmar() {
-		
+		throw new OperacionInvalidaException("No se puede confirmar desde este estado");
 	}
 	public void cancelar() {
 		

@@ -106,7 +106,10 @@ public class Paquete implements Item{
 	public void setStock(int nuevoStock) {
 		this.stock=nuevoStock;
 	}
+	public List<Item> getLista(){
+		return itemsDelPaquete;
+	}
 	public double peso() {
-		return itemsDelPaquete.mapToDouble(item->item.peso()).sum();
+		return this. getLista().stream().mapToDouble(item->item.peso()).sum();
 	}
 }

@@ -8,8 +8,9 @@ public class EnPreparacion extends EstadoDePedido {
 		pedido.setEstadoDePedido(new Enviado(pedido));
 	}
 	public void cancelar() {
-		pedido.reponerStock()
-		pedido.reembolsarCostoDeProductosYEnvio()
+		pedido.reembolsarCostoDeProductos(); //primero reembolsar porque sino pierdo la variable de costoTotal
+		pedido.reembolsarCostoDeEnvio();
+		pedido.reponerStock(); 
 		pedido.setEstadoDePedido(new Cancelado(pedido));
 	}
 }

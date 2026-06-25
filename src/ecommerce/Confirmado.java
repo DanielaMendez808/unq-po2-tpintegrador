@@ -8,7 +8,7 @@ public class Confirmado extends EstadoDePedido{
 		pedido.setEstadoDePedido(new EnPreparacion(pedido));
 	}
 	public void cancelar() {
-		pedido.reponerStock()
+		pedido.reponerStock();
 		pedido.setEstadoDePedido(new Cancelado(pedido));
 	}
 	

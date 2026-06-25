@@ -3,7 +3,7 @@ package ecommerce;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Catalogo {
+public class Catalogo { //Toda entidad del catálogo debe exponer nombre, descripción y precio base calculado. 
 	private String nombre;
 	private List <Item> itemsDeCatalogo = new ArrayList<>();
 	///////////////////////CONSTRUCTOR////////////////////////////////////////////
