@@ -9,12 +9,30 @@ public class Paquete implements Item{
 	int stock;
 	List <Item> itemsDelPaquete = new ArrayList<>();
 	double descuento;
+	
+////////////////////////////CONSTRUCTOR//////////////////////////////////////////
+	public Paquete(String nombre, String descripcion, int stock, ArrayList<Item> itemsDelPaquete, double descuento) {
+		super();
+		this.validarQueNoHayStringsVacios(nombre, descripcion);
+		this.nombre=nombre;
+		this.descripcion= descripcion;
+		this.stock=stock;
+		this.itemsDelPaquete =itemsDelPaquete;
+		this.descuento=descuento;
+		
+	}
+	
+	public void validarQueNoHayStringsVacios(String nombre, String descripcion) {
+		if(nombre.isBlank() || descripcion.isBlank()) {
+			throw new RuntimeException ("Hay parametros de tipo strings vacios");
+		}
+	}
+////////////////////////////AGREGAR Y BORRAR ITEM A PAQUETE///////////////////////////////////////////////
 	public void agregarItemAPaquete(Item item) {
-		validarQueElItemNoExisteYa(item);
-		//validarQueHayStockDelItem(item);
+		this.verificarQueElItemNoEstaEnElPaquete(item);
 		itemsDelPaquete.add(item);
 	}
-	public void validarQueElItemNoExisteYa(Item item) {
+	public void verificarQueElItemNoEstaEnElPaquete(Item item) {
 		if(itemEstaEnPaquete(item)) {
 			throw new RuntimeException("Error: El item ya esta en el paquete");
 		}
@@ -31,6 +49,32 @@ public class Paquete implements Item{
 			throw new RuntimeException("Error: El item no esta en el carrito");
 		}
 	}
+/////////////////////////////////////STOCK///////////////////////////////////////////////////////////
+	public void incrementarStock() {
+		this.validarQueExisteStockParaArmarPaquete();
+		this.decrementarStockDeCadaItemDePaquete();
+		setStock( getStock() + 1);
+		
+	}
+	public void decrementarStockDeCadaItemDePaquete() {
+		itemsDelPaquete.stream().forEach(item-> item.decrementarStock());
+	}
+	public boolean existeStockDeCadaItemEnPaquete() {
+		return itemsDelPaquete.stream().allMatch(item ->item.tieneStock());
+		
+	}
+	
+	public void validarQueExisteStockParaArmarPaquete() {
+		if(!this.existeStockDeCadaItemEnPaquete()) {
+			throw new RuntimeException("Error: No hay stock para armar el paquete " + this.nombre());
+		}
+	}
+	public void validarQueHayStockDelItem() {
+		if(!this.tieneStock()) {
+			throw new RuntimeException("No hay stock de " +this.nombre());
+		}
+	}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
 	public String nombre() {
 		return nombre;
 	}
@@ -53,29 +97,6 @@ public class Paquete implements Item{
 	public double precioBaseCalculado(){
 		return this.precioDePaquete()* (1-this.descuento);
 			//aplicar descuento de paquete a la suma de todos los precios
-	}
-	//public void validarQueHayStockDelItem(){
-	//	if(!this.tieneStock()) {
-	//		throw new RuntimeException("Error: No hay stock de " + this.nombre());}
-	//}
-	/////////////////////////////////////////
-	public void incrementarStock() {
-		this.validarQueExisteStockParaArmarPaquete();
-		this.decrementarStockDeCadaItemDePaquete();
-		setStock( getStock() + 1);
-		
-	}
-	public void decrementarStockDeCadaItemDePaquete() {
-		itemsDelPaquete.stream().forEach(item-> item.decrementarStock());
-	}
-	public boolean existeStockDeCadaItemEnPaquete() {
-		return itemsDelPaquete.stream().allMatch(item ->item.tieneStock());
-		
-	}
-	public void validarQueExisteStockParaArmarPaquete() {
-		if(!this.existeStockDeCadaItemEnPaquete()) {
-			throw new RuntimeException("Error: No hay stock para armar el paquete " + this.nombre());
-		}
 	}
 
 	public int getStock() {
