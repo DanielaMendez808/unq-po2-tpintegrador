@@ -5,4 +5,5 @@ public interface Item {
 	public String descripcion();
 	public double precioBaseCalculado();
 	public boolean tieneStock();
+	public void incrementarStock();
 }
