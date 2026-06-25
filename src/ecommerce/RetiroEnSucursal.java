@@ -18,5 +18,4 @@ public class RetiroEnSucursal implements MetodoDeEnvio {
 		} else return 3;
 	}
 
-
 }
