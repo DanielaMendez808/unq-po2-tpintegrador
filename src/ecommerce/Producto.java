@@ -139,6 +139,8 @@ public class Producto implements Item {
 		this.stock = nuevoStock;
 	}
 	
-
+	public void accept(ReporteVisitor visitor) {
+		visitor.visitProducto(this);
+	}
 
 }

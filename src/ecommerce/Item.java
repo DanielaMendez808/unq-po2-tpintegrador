@@ -9,4 +9,5 @@ public interface Item {
 	public void decrementarStock();
 	public void validarQueHayStockDelItem();
 	public double peso();
+	public void accept(ReporteVisitor visitor);
 }

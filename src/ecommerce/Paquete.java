@@ -112,4 +112,9 @@ public class Paquete implements Item{
 	public double peso() {
 		return this. getLista().stream().mapToDouble(item->item.peso()).sum();
 	}
+	
+	public void accept(ReporteVisitor visitor) {
+		visitor.visitPaquete(this);
+	}
+	
 }
