@@ -3,7 +3,7 @@ package ecommerce;
 public class EnvioEstandar implements MetodoDeEnvio {
 	
 	public float calcularCosto(Pedido pedido) {
-		return CorreoArgentina.estimarEnvio(pedido.getPesoTotal(),
+		return CorreoArgentina.estimarEnvio((float)pedido.getPesoTotal(),
 				                            pedido.getDireccionDeEntrega());
 	}
 	
