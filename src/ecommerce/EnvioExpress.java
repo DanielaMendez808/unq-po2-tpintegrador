@@ -11,13 +11,8 @@ public class EnvioExpress implements MetodoDeEnvio {
 	}
 	
 	public float calcularCosto(Pedido pedido) {
-		return calcularCosto((float) pedido.precioAPagar());
+		return (float) pedido.precioAPagar() * (porcentaje / 100) + cargoBase;
 	}
-	
-	public float calcularCosto(float precio) { //duda adapter/API
-		return precio * (porcentaje / 100) + cargoBase;
-	}
-	
 	
 	public int diasEstimados(Pedido pedido) {
 		return 1;

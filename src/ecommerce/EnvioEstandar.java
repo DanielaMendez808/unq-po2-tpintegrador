@@ -4,7 +4,7 @@ public class EnvioEstandar implements MetodoDeEnvio {
 	
 	public float calcularCosto(Pedido pedido) {
 		return CorreoArgentina.estimarEnvio(pedido.getPesoTotal(),
-				                            pedido.getDireccionDeEntrega()); //duda adapter
+				                            pedido.getDireccionDeEntrega());
 	}
 	
 	public int diasEstimados(Pedido pedido) {
