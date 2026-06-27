@@ -53,6 +53,9 @@ public class Pedido {
         return metodoDeEnvio.diasEstimados(this);
     }
 	
+	public MetodoDeEnvio getMetodoDeEnvio() {
+		return metodoDeEnvio;
+	}
 	public void setMetodoDeEnvio(MetodoDeEnvio metodo) {
         this.metodoDeEnvio = metodo;
     }

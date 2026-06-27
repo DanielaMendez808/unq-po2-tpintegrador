@@ -14,7 +14,8 @@ public abstract class MetodoDePago {
     protected abstract String ejecutarTransaccion(double monto);
     
     protected void notificarResultado(String códigoTransacción) {
-    	//implementar registro de comprobantes
+    	//implementar registro de comprobantes - Documentos/comprobantes como NotaDeCredito
+    	                                       //I o Sclase
     } 
 
 }
