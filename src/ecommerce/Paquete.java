@@ -3,7 +3,7 @@ package ecommerce;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Paquete implements Item{
+public class Paquete extends Item{
 	String nombre;
 	String descripcion;
 	int stock;

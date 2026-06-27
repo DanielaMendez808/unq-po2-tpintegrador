@@ -45,4 +45,7 @@ public class Catalogo { //Toda entidad del catálogo debe exponer nombre, descri
 	public String getNombre(){
 		return this.nombre;
 	}
+	public List<Item> getLista(){
+		return this.itemsDeCatalogo;
+	}
 }

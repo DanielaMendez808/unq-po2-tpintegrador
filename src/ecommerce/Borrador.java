@@ -15,6 +15,7 @@ public class Borrador extends EstadoDePedido{
 		pedido.getCarrito().remove(item);
 		
 	}
+	// si el cliente eligio retiro en sucursal, la revision de si hay stock se hace cuando se confirma 
 	public void confirmar() {
 		pedido.decrementarStock();
 		pedido.setEstadoDePedido(new Confirmado(pedido));
