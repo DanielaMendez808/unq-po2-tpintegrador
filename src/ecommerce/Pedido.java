@@ -39,9 +39,6 @@ public class Pedido {
 			throw new RuntimeException ("No hay"+item.nombre()+ "en el carrito");
 		}
 	}
-	public void transferirStockASucursal() {
-		this.getMetodoDeEnvio().getSucursal().transferirStockASucursal(carrito);
-	}
 	
 /////////////////////////////////////////////////////////////////////////////
 	public float costoEnvio() {

@@ -6,26 +6,21 @@ import java.util.List;
 import java.util.Map;
 
 public class Sucursal {
-	List<Item> stockEnSucursal= new ArrayList <>();
+	
+	List<Item> stockEnSucursal = new ArrayList <>();
 	String nombreSucursal;
 	
-	public Sucursal(String nombre, List<Item> stock) { //posible implementacion
+	public Sucursal(String nombre, List<Item> stock) {
 		this.nombreSucursal = nombre;
-		this.stockMap = new HashMap<>();
-		
-		for (Item item : stock) {
-	        stockMap.put(item, stockMap.getOrDefault(item, 0) + 1);
-	    }
+		this.stockEnSucursal = stock;
 	}
 	
 	public boolean hayStock(List<Item> productos) {
 		return false; //implementar
 	}
-	public void transferirStockASucursal() {
-		agregarStockASucursal
-	}
-	public List<Item> agregarStockASucursal(List <Item> carrito){
-		return sucursal.getStockEnSucursal().addAll(carrito);
+	
+	public List<Item> agregarStockSiFalta(List<Item> carrito){
+		return //implementar .addAll(carrito);
 	}
 
 	public List<Item> getStockEnSucursal() {
@@ -43,6 +38,5 @@ public class Sucursal {
 	public void setNombreSucursal(String nombreSucursal) {
 		this.nombreSucursal = nombreSucursal;
 	}
-	
 
 }

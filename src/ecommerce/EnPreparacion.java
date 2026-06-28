@@ -5,9 +5,6 @@ public class EnPreparacion extends EstadoDePedido {
 		super(pedido);
 	}
 	public void enviar() {
-		if(pedido.getMetodoDeEnvio() instanceof RetiroEnSucursal) {
-			retiroEnSucursal.transferirStockASucursal(pedido.getCarrito());
-		}
 		pedido.setEstadoDePedido(new Enviado(pedido));
 	}
 	public void cancelar() {
