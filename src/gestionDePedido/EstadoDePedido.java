@@ -1,4 +1,4 @@
-package ecommerce;
+package gestionDePedido;
 
 public class EstadoDePedido { //mantener como abstract class?? creo que no hace falta. Que diferencia hay? Pensarlo a nivel mas teorico
 	Pedido pedido;

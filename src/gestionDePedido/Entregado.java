@@ -1,4 +1,4 @@
-package ecommerce;
+package gestionDePedido;
 
 public class Entregado extends EstadoDePedido{
 	public Entregado(Pedido pedido) {

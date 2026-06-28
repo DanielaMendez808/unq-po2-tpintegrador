@@ -1,4 +1,4 @@
-package ecommerce;
+package gestionDePedido;
 
 public class Confirmado extends EstadoDePedido{
 	public Confirmado(Pedido pedido) {
@@ -8,7 +8,7 @@ public class Confirmado extends EstadoDePedido{
 		pedido.setEstadoDePedido(new EnPreparacion(pedido));
 	}
 	public void cancelar() {
-		pedido.reponerStock();
+		pedido.reponerStock(sucursal);
 		pedido.setEstadoDePedido(new Cancelado(pedido));
 	}
 	

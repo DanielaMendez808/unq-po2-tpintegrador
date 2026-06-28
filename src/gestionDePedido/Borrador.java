@@ -1,4 +1,6 @@
-package ecommerce;
+package gestionDePedido;
+
+import catalogoEItems.Item;
 
 public class Borrador extends EstadoDePedido{
 	public Borrador(Pedido pedido){
@@ -7,17 +9,17 @@ public class Borrador extends EstadoDePedido{
 	public void agregarItem(Item item ) {
 		item.validarQueHayStockDelItem();
 		pedido.getCarrito().add(item);
-		item.decrementarStock();
+		item.decrementarStock(sucursal);
 	}
 	public void quitarItem(Item item) {
 		pedido.validarQueElItemEstaEnElCarrito(item);
-		item.incrementarStock();
+		item.incrementarStock(sucursal);
 		pedido.getCarrito().remove(item);
 		
 	}
 	// si el cliente eligio retiro en sucursal, la revision de si hay stock se hace cuando se confirma 
 	public void confirmar() {
-		pedido.decrementarStock();
+		pedido.decrementarStock(sucursal);
 		pedido.setEstadoDePedido(new Confirmado(pedido));
 	}
 	public void cancelar() {

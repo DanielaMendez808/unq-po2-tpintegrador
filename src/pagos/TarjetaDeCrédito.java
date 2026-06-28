@@ -1,4 +1,4 @@
-package ecommerce;
+package pagos;
 
 public class TarjetaDeCrédito extends MetodoDePago {
 	

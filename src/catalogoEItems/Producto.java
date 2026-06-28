@@ -3,12 +3,16 @@ package catalogoEItems;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import Exceptions.ErrorDeStockInsuficiente;
 import Exceptions.ErrorDeStringVacio;
+import ecommerce.ReporteVisitor;
+import gestionDePedido.Sucursal;
 
 public class Producto extends Item {
+	private Map<Sucursal, Integer> stockPorSucursal;
 	private int SKU;
 	private String marca;
 	private String categoria;
@@ -18,9 +22,9 @@ public class Producto extends Item {
 
 	////////////////CONSTRUCTOR///////////////////////////
 	/// 
-	public Producto(int SKU, String nombre, String marca, String categoria, int stock, String descripcion, double peso,
+	public Producto(int SKU, String nombre, String marca, String categoria, String descripcion, double peso,
 			double precio, double descuento) {
-		super(nombre, descripcion, precio, stock, descuento);
+		super(nombre, descripcion, precio, descuento);
 		this.validarQueNoHayStringsVacios();
 		this.marca = marca;
 		this.categoria = categoria;
@@ -69,11 +73,41 @@ public class Producto extends Item {
 
 	//////////////////////STOCK//////////////////////////////// 
 	@Override
+	public boolean tieneStock() {
+		return (getStock() > 0);
+	}
+	
+	public int getStock() {
+		return stockPorSucursal.values().stream().mapToInt(Integer::intValue).sum();
+	}
+	
+	public void setStock(Map<Sucursal, Integer> nuevoStock) {
+		this.stockPorSucursal = nuevoStock;
+	}
+	
+	public int getStockEnSucursal(Sucursal sucursal) {
+        return stockPorSucursal.getOrDefault(sucursal, 0);
+    }
+	
 	public void validarQueHayStockDelItem() {
 		if (!this.tieneStock()) {
-			throw new ErrorDeStockInsuficiente("No hay stock de " + this.getNombre());
+			throw new RuntimeException("No hay stock de " + this.getNombre());
 		}
 	}
+	
+	public void decrementarStock(Sucursal sucursal) {
+        int stockActual = getStockEnSucursal(sucursal);
+        if (stockActual == 0) {
+            throw new ErrorDeStockInsuficiente("No hay stock suficiente en la sucursal.");
+        }
+        stockPorSucursal.put(sucursal, stockActual - 1);
+    }
+	
+	public void incrementarStock(Sucursal sucursal) {
+        int stockActual = getStockEnSucursal(sucursal);
+        stockPorSucursal.put(sucursal, stockActual + 1);
+    }
+	
 	//////PRECIO////////
 	public double precioBaseCalculado() {
 		return this.getPrecioInicial() * (1 - this.getDescuento());
@@ -122,6 +156,11 @@ public class Producto extends Item {
 
 	public Set<AtributoDinamico> getAtributosDinamicos() {
 		return AtributosDinamicos;
+	}
+	
+	@Override
+	public void accept(ReporteVisitor visitor) {
+		visitor.visitProducto(this);
 	}
 
 }

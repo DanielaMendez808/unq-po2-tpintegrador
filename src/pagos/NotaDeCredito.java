@@ -1,4 +1,4 @@
-package ecommerce;
+package pagos;
 
 public class NotaDeCredito {
 	private int DNI;

@@ -5,29 +5,51 @@ import java.util.List;
 
 import Exceptions.ErrorDeEdicionDePaquete;
 import Exceptions.ErrorDeStockInsuficiente;
-import ecommerce.Item;
-
+import ecommerce.ReporteVisitor;
+import gestionDePedido.Sucursal;
 
 public class Paquete extends Item {
 	private List <Item> itemsDelPaquete = new ArrayList<>();
 ///////////CONSTRUCTOR/////////////
-	public Paquete(String nombre, String descripcion, int stock, ArrayList<Item> itemsDelPaquete, double descuento) {
-		super();
+	public Paquete(String nombre, String descripcion, ArrayList<Item> itemsDelPaquete, double descuento) {
+		super(nombre, descripcion, 0, descuento);
 		this.itemsDelPaquete =itemsDelPaquete;
 	}
 	///////STOCK//////////
+	@Override
+	public boolean tieneStock() {
+		return (getStock() > 0);
+	}
+	
 	public void validarQueHayStockDelItem() {
 		if(!this.tieneStock()) {
 			throw new ErrorDeStockInsuficiente("No hay stock de " +this.getNombre());
 		}
 	}
+	
+	public int getStock() {
+        // El stock del paquete es el mínimo stock disponible de entre sus componentes
+        return itemsDelPaquete.stream()
+                    .mapToInt(Item::getStock)
+                    .min()
+                    .orElse(0);
+    }
+	
+	public int getStockEnSucursal(Sucursal sucursal) {
+        if (itemsDelPaquete.isEmpty()) return 0;
+        return itemsDelPaquete.stream()
+                    .mapToInt(item -> item.getStockEnSucursal(sucursal))
+                    .min()
+                    .orElse(0);
+    }
+	
 	@Override
-	public void incrementarStock() {
-		this.validarQueExisteStockParaArmarPaquete();
-		this.decrementarStockDeCadaItemDePaquete();
-		super.incrementarStock();
-		
-	}
+	public void incrementarStock(Sucursal sucursal) {
+        for (Item item : itemsDelPaquete) {
+            item.incrementarStock(sucursal);
+        }
+    }
+	
 	public void validarQueExisteStockParaArmarPaquete() {
 		if(!this.existeStockDeCadaItemEnPaquete()) {
 			throw new ErrorDeStockInsuficiente("Error: No hay stock para armar el paquete " + this.getNombre());
@@ -35,11 +57,17 @@ public class Paquete extends Item {
 	}
 	public boolean existeStockDeCadaItemEnPaquete() {
 		return itemsDelPaquete.stream().allMatch(item ->item.tieneStock());
-		
 	}
-	public void decrementarStockDeCadaItemDePaquete() {
-		itemsDelPaquete.stream().forEach(item-> item.decrementarStock());
-	}
+	
+	@Override
+    public void decrementarStock(Sucursal sucursal) {
+		if(!this.existeStockDeCadaItemEnPaquete()) {
+			throw new ErrorDeStockInsuficiente("Error: No hay stock para armar el paquete " + this.getNombre());
+		}
+        for (Item item : itemsDelPaquete) {
+            item.decrementarStock(sucursal);
+        }
+    }
 	/////PRECIO/////////
 	public double precioDePaquete() {
 		return itemsDelPaquete.stream().mapToDouble(Item -> Item.precioBaseCalculado).sum();
@@ -77,5 +105,9 @@ public class Paquete extends Item {
 	}
 	public List<Item> getItemsDelPaquete() {
 		return itemsDelPaquete;
+	}
+	
+	public void accept(ReporteVisitor visitor) {
+		visitor.visitPaquete(this);
 	}
 }

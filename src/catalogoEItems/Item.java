@@ -1,20 +1,24 @@
 package catalogoEItems;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import Exceptions.ErrorDeStringVacio;
 import ecommerce.ReporteVisitor;
+import gestionDePedido.Sucursal;
 
 public abstract class Item {
 		private String nombre;
 		private String descripcion;
-		private int stockEnDeposito;
+		private Map<Sucursal, Integer> stockPorSucursal;
 		private double descuento;
 		////////////VALIDACIONES DE CONSTRUCTOR////////////////
-		protected Item(String nombre, String descripcion,double precio, int stock, double descuento ) {
+		protected Item(String nombre, String descripcion,double precio, double descuento) {
 			super();
 			this.nombre= nombre;
 			this.descripcion=descripcion;
-			this.stockEnDeposito=stock;
 			this.descuento=descuento;
+			this.stockPorSucursal = new HashMap<>();
 		}
 		public void validarQueNoHayStringsVacios() {
 			if (nombre.isBlank() || descripcion.isBlank()) {
@@ -22,16 +26,14 @@ public abstract class Item {
 			}
 		}
 		///////////////STOCK////////////////////
-		public boolean tieneStock() {
-			return (getStock() > 0);
-		}
+		public abstract boolean tieneStock();
 		
-		public void decrementarStock() {
-			setStock(getStock() - 1);
-		}
-		public void incrementarStock() {
-			setStock(getStock() + 1);
-		}
+		public abstract void decrementarStock(Sucursal sucursal);
+	
+		public abstract void incrementarStock(Sucursal sucursal);
+		
+		public abstract int getStockEnSucursal(Sucursal sucursal);
+		
 		public void validarQueHayStockDelItem() {
 			
 		}
@@ -50,12 +52,12 @@ public abstract class Item {
 		public void setDescripcion(String descripcion) {
 			this.descripcion = descripcion;
 		}
-		public int getStock() {
-			return stockEnDeposito;
+		public abstract int getStock();
+		
+		public void setStock(Map<Sucursal, Integer> nuevoStock) {
+			
 		}
-		public void setStock(int stock) {
-			this.stockEnDeposito = stock;
-		}
+
 		public double getDescuento() {
 			return descuento;
 		}
@@ -63,7 +65,5 @@ public abstract class Item {
 			this.descuento = descuento;
 		}
 
-		public void accept(ReporteVisitor visitor) {
-			visitor.visitProducto(this);
-		}
+		public abstract void accept(ReporteVisitor visitor);
 }

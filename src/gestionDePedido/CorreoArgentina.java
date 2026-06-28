@@ -1,4 +1,6 @@
-package ecommerce;
+package gestionDePedido;
+
+import ecommerce.Direccion;
 
 public class CorreoArgentina {
 	

@@ -1,4 +1,4 @@
-package ecommerce;
+package gestionDePedido;
 
 public interface MetodoDeEnvio {
 	

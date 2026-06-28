@@ -1,4 +1,4 @@
-package ecommerce;
+package gestionDePedido;
 
 public class EnPreparacion extends EstadoDePedido {
 	public EnPreparacion(Pedido pedido) {
@@ -10,7 +10,7 @@ public class EnPreparacion extends EstadoDePedido {
 	public void cancelar() {
 		pedido.reembolsarCostoDeProductos(); //primero reembolsar porque sino pierdo la variable de costoTotal
 		pedido.reembolsarCostoDeEnvio();
-		pedido.reponerStock(); 
+		pedido.reponerStock(sucursal); 
 		pedido.setEstadoDePedido(new Cancelado(pedido));
 	}
 }

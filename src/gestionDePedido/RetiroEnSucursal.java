@@ -1,4 +1,4 @@
-package ecommerce;
+package gestionDePedido;
 
 public class RetiroEnSucursal implements MetodoDeEnvio {
 	
