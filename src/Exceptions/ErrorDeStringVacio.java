@@ -1,12 +1,12 @@
 package Exceptions;
 
-public class ErrorDeEstado extends BussinessException{
+public class ErrorDeStringVacio extends BussinessException{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public ErrorDeEstado(String mensaje) {
+	public ErrorDeStringVacio(String mensaje) {
 		super(mensaje);
 	}
 }
