@@ -66,4 +66,5 @@ public abstract class Item {
 		}
 
 		public abstract void accept(ReporteVisitor visitor);
+		
 }
