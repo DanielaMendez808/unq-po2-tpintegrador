@@ -12,7 +12,7 @@ public class Pedido {
 	EstadoDePedido estadoActual;
 	List <Item> carrito = new ArrayList <>(); //admite items repetidos
 	Direccion direccionDeEntrega;
-	Sucursal sucursal = null;
+	Sucursal sucursalElegida;
 	
 	public double precioAPagar() {
 		return carrito.stream().mapToDouble(item->item.precioBaseCalculado()).sum();
@@ -23,13 +23,22 @@ public class Pedido {
 		this.estadoActual= nuevoEstado;
 	}
 	public void reponerStock() {
-		carrito.stream().forEach(item->item.incrementarStock(sucursal));
+		carrito.stream().forEach(item->item.incrementarStock());
 		carrito.clear();
 	}
 	public void decrementarStock() {
-		carrito.stream().forEach(item->item.decrementarStock(sucursal));
+		carrito.stream().forEach(item->item.decrementarStock());
 		
 	}
+	
+	public void decrementarStock(Sucursal sucursal) {
+		carrito.stream().forEach(item->item.decrementarStock(sucursal));
+	}
+	
+	public void incrementarStock(Sucursal sucursal) {
+		carrito.stream().forEach(item->item.incrementarStock(sucursal));
+	}
+	
 	public void reembolsarCostoDeProductos(){
 		usuario.nuevaNotaDeCredito(precioAPagar());
 		
@@ -56,8 +65,9 @@ public class Pedido {
 	public MetodoDeEnvio getMetodoDeEnvio() {
 		return metodoDeEnvio;
 	}
-	public void setMetodoDeEnvio(MetodoDeEnvio metodo) {
+	public void setMetodoDeEnvio(MetodoDeEnvio metodo, Sucursal sucursal) {
 		this.metodoDeEnvio = metodo;
+		this.sucursalElegida = sucursal; //si no usa sucursal es null
     }
 	
 	public double getPesoTotal() {
@@ -70,6 +80,10 @@ public class Pedido {
 	
 	public List<Item> getCarrito() {
 		return carrito;
+	}
+	
+	public Sucursal getSucursal() {
+		return sucursalElegida;
 	}
 	
 }

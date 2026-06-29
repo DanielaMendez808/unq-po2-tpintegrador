@@ -50,6 +50,11 @@ public class Paquete extends Item {
         }
     }
 	
+	@Override
+	public void incrementarStock() {
+		itemsDelPaquete.stream().forEach(Item::incrementarStock);
+	}
+	
 	public void validarQueExisteStockParaArmarPaquete() {
 		if(!this.existeStockDeCadaItemEnPaquete()) {
 			throw new ErrorDeStockInsuficiente("Error: No hay stock para armar el paquete " + this.getNombre());
@@ -68,6 +73,11 @@ public class Paquete extends Item {
             item.decrementarStock(sucursal);
         }
     }
+	
+	@Override
+	public void decrementarStock() {
+		itemsDelPaquete.stream().forEach(Item::decrementarStock);
+	}
 	/////PRECIO/////////
 	public double precioDePaquete() {
 		return itemsDelPaquete.stream().mapToDouble(Item -> Item.precioBaseCalculado).sum();

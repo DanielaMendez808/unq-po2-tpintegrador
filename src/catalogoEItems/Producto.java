@@ -12,7 +12,7 @@ import ecommerce.ReporteVisitor;
 import gestionDePedido.Sucursal;
 
 public class Producto extends Item {
-	private Map<Sucursal, Integer> stockPorSucursal;
+	private Map<Sucursal, Integer> depósito;
 	private int SKU;
 	private String marca;
 	private String categoria;
@@ -78,15 +78,15 @@ public class Producto extends Item {
 	}
 	
 	public int getStock() {
-		return stockPorSucursal.values().stream().mapToInt(Integer::intValue).sum();
+		return depósito.values().stream().mapToInt(Integer::intValue).sum();
 	}
 	
 	public void setStock(Map<Sucursal, Integer> nuevoStock) {
-		this.stockPorSucursal = nuevoStock;
+		this.depósito = nuevoStock;
 	}
 	
 	public int getStockEnSucursal(Sucursal sucursal) {
-        return stockPorSucursal.getOrDefault(sucursal, 0);
+        return depósito.getOrDefault(sucursal, 0);
     }
 	
 	public void validarQueHayStockDelItem() {
@@ -100,13 +100,35 @@ public class Producto extends Item {
         if (stockActual == 0) {
             throw new ErrorDeStockInsuficiente("No hay stock suficiente en la sucursal.");
         }
-        stockPorSucursal.put(sucursal, stockActual - 1);
+        depósito.put(sucursal, stockActual - 1);
     }
+	
+	@Override
+	public void decrementarStock() {
+		Sucursal sucursalConStock = depósito.entrySet().stream() //para usar streams
+		        .filter(entrada -> entrada.getValue() > 0) //filtro > 0
+		        .map(Map.Entry::getKey) //tomo sucursal
+		        .findFirst() //busco el primero
+		        .orElseThrow(() -> new ErrorDeStockInsuficiente(
+		            "No hay stock disponible en ningún depósito para el producto"));
+		        depósito.put(sucursalConStock, depósito.get(sucursalConStock) - 1); //descuenta si encuentra
+		}
 	
 	public void incrementarStock(Sucursal sucursal) {
         int stockActual = getStockEnSucursal(sucursal);
-        stockPorSucursal.put(sucursal, stockActual + 1);
+        depósito.put(sucursal, stockActual + 1);
     }
+	
+	@Override
+	public void incrementarStock() {
+	    Sucursal primeraSucursal = depósito.keySet().stream()
+	        .findFirst() //primera sucursal
+	        .orElseThrow(() -> new RuntimeException(
+	            "No tiene sucursal asignada."
+	        ));
+	    int stockActual = depósito.getOrDefault(primeraSucursal, 0);
+	    depósito.put(primeraSucursal, stockActual + 1);
+	}
 	
 	//////PRECIO////////
 	public double precioBaseCalculado() {

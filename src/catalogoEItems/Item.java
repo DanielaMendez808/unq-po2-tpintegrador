@@ -10,7 +10,7 @@ import gestionDePedido.Sucursal;
 public abstract class Item {
 		private String nombre;
 		private String descripcion;
-		private Map<Sucursal, Integer> stockPorSucursal;
+		private Map<Sucursal, Integer> depósito;
 		private double descuento;
 		////////////VALIDACIONES DE CONSTRUCTOR////////////////
 		protected Item(String nombre, String descripcion,double precio, double descuento) {
@@ -18,7 +18,7 @@ public abstract class Item {
 			this.nombre= nombre;
 			this.descripcion=descripcion;
 			this.descuento=descuento;
-			this.stockPorSucursal = new HashMap<>();
+			this.depósito = new HashMap<>();
 		}
 		public void validarQueNoHayStringsVacios() {
 			if (nombre.isBlank() || descripcion.isBlank()) {
@@ -29,9 +29,9 @@ public abstract class Item {
 		public abstract boolean tieneStock();
 		
 		public abstract void decrementarStock(Sucursal sucursal);
-	
+		public abstract void decrementarStock();
 		public abstract void incrementarStock(Sucursal sucursal);
-		
+		public abstract void incrementarStock();
 		public abstract int getStockEnSucursal(Sucursal sucursal);
 		
 		public void validarQueHayStockDelItem() {

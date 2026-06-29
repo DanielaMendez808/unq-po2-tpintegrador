@@ -13,13 +13,17 @@ public class RetiroEnSucursal implements MetodoDeEnvio {
 	}
 	
 	public int diasEstimados(Pedido pedido) {
-		if (sucursal.hayStock(pedido.getCarrito())) {
+		if (hayStockDeTodo(pedido)) {
 			return 0;
 		} else 
-			sucursal.agregarStockSiFalta(pedido.getCarrito());
 			return 3;
 	}
 	
+	public boolean hayStockDeTodo(Pedido pedido) {
+		return pedido.getCarrito().stream()
+				.allMatch(item -> item.getStockEnSucursal(pedido.getSucursal()) > 0);
+	}
+
 	public Sucursal getSucursal() {
 		return this.sucursal;
 	}
