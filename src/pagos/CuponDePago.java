@@ -1,18 +1,18 @@
 package pagos;
 
-public class NotaDeCredito implements Comprobante {
+public class CuponDePago implements Comprobante {
 	
 	private String codigo;
-	private double monto;
-	
-	public NotaDeCredito(String codigo, double monto) {
+    private double monto;
+    
+    public CuponDePago(String codigo, double monto) {
 		this.codigo=codigo;
 		this.monto=monto;
 	}
-	
-	@Override
+    
+    @Override
     public String getCodigoTransaccion() {
-    	return "Nota de Crédito N°-" + codigo;
+    	return "Cupón de Pago N°-" + codigo;
     }
     
     @Override

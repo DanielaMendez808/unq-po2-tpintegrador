@@ -1,48 +1,38 @@
 package pagos;
 
+import gestionDePedido.Pedido;
+
 public class TarjetaDeCrédito extends MetodoDePago {
 	
 	private TarjetaDeCréditoAPI api;
-    private String número;
-    private String cvv;
-    private String vencimiento;
 
-    public TarjetaDeCrédito(TarjetaDeCréditoAPI api, String número, String cvv, String vencimiento) {
+    public TarjetaDeCrédito(TarjetaDeCréditoAPI api) {
         this.api = api;
-        this.número = número;
-        this.cvv = cvv;
-        this.vencimiento = vencimiento;
     }
 	
 	@Override
-	protected void validarDatos() {
-		if (!api.validarTarjeta(getNúmero(), getCvv(), getVencimiento())) {
+	protected void validarDatos(Pedido pedido) {
+		if (!api.validarTarjeta(pedido.getUsuario().getTarjeta())) {
 			throw new IllegalArgumentException("Datos de tarjeta inválidos.");
 		}
 	}
 	
 	@Override
-    protected void reservarFondos(double monto) {
-		if (!api.preAutorizar(getNúmero(), monto)) {
+    protected void reservarFondos(Pedido pedido, double monto) {
+		if (!api.preAutorizar(pedido.getUsuario().getTarjeta(), monto)) {
 			throw new IllegalArgumentException("Pre-autorización rechazada.");
 		}
     }
 	
 	@Override
-    protected String ejecutarTransaccion(double monto) {
-		return api.ejecutarTransacción(getNúmero(), monto);
+    protected String ejecutarTransaccion(Pedido pedido, double monto) {
+		return api.ejecutarTransacción(pedido.getUsuario().getTarjeta(), monto);
 	}
-
-	public String getNúmero() {
-		return número;
-	}
-
-	public String getCvv() {
-		return cvv;
-	}
-
-	public String getVencimiento() {
-		return vencimiento;
-	}
+	
+	protected void notificarResultado(Pedido pedido, String códigoTransacción, double monto) {
+    	super.notificarResultado(pedido, códigoTransacción, monto);
+    	CuponDePago cPago = new CuponDePago(códigoTransacción, monto);
+    	pedido.getUsuario().agregarComprobante(cPago);
+    } 
 
 }

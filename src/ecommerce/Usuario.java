@@ -3,13 +3,44 @@ package ecommerce;
 import java.util.ArrayList;
 import java.util.List;
 
+import pagos.Comprobante;
 import pagos.NotaDeCredito;
 
 public class Usuario {
+	
 	int DNI;
 	String nombre;
-	List<NotaDeCredito> notasDeCredito = new ArrayList<> ();
-	public void nuevaNotaDeCredito(double monto) {
-		notasDeCredito.add(new NotaDeCredito(DNI,monto));
+	String cbu;
+	String billeteraVirtual;
+	String tarjeta;
+	List<Comprobante> comprobantes = new ArrayList<> ();
+	
+	public void agregarComprobante(Comprobante comprobante) {
+		comprobantes.add(comprobante);
 	}
+
+	public int getDNI() {
+		return DNI;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public String getTarjeta() {
+		return tarjeta;
+	}
+
+	public List<Comprobante> getComprobantes() {
+		return comprobantes;
+	}
+
+	public String getCbu() {
+		return cbu;
+	}
+
+	public String getBilleteraVirtual() {
+		return billeteraVirtual;
+	}
+	
 }

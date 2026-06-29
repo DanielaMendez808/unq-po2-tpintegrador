@@ -5,6 +5,7 @@ import java.util.List;
 import catalogoEItems.Item;
 import ecommerce.Direccion;
 import ecommerce.Usuario;
+import pagos.NotaDeCredito;
 
 public class Pedido {
 	Usuario usuario;
@@ -13,6 +14,7 @@ public class Pedido {
 	List <Item> carrito = new ArrayList <>(); //admite items repetidos
 	Direccion direccionDeEntrega;
 	Sucursal sucursalElegida;
+	String idPago;
 	
 	public double precioAPagar() {
 		return carrito.stream().mapToDouble(item->item.precioBaseCalculado()).sum();
@@ -40,12 +42,12 @@ public class Pedido {
 	}
 	
 	public void reembolsarCostoDeProductos(){
-		usuario.nuevaNotaDeCredito(precioAPagar());
+		usuario.agregarComprobante(new NotaDeCredito(getId(), precioAPagar()));
 		
 	}
 	public void reembolsarCostoDeEnvio() {// el costo de productos vuelve a ser 0 porque la lista se vacia, pero el costo de envio tambien habria que cambiarlo?
 		
-		usuario.nuevaNotaDeCredito(this.costoEnvio());
+		usuario.agregarComprobante(new NotaDeCredito(getId(), this.costoEnvio()));
 	}
 	public void validarQueElItemEstaEnElCarrito(Item item) {
 		if(!this.getCarrito().contains(item)) {
@@ -86,4 +88,14 @@ public class Pedido {
 		return sucursalElegida;
 	}
 	
+	public Usuario getUsuario() {
+		return usuario;
+	}
+	public String getId() {
+		return idPago;
+	}
+	
+	public void setId(String id) {
+		this.idPago = id;
+	}
 }

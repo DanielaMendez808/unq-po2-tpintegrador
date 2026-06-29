@@ -1,41 +1,37 @@
 package pagos;
 
+import gestionDePedido.Pedido;
+
 public class BilleteraVirtual extends MetodoDePago {
 
 	private BilleteraVirtualAPI api;
-    private String cuenta;
 
-    public BilleteraVirtual(BilleteraVirtualAPI api, String cuenta) {
+    public BilleteraVirtual(BilleteraVirtualAPI api) {
         this.api = api;
-        this.cuenta = cuenta;
     }
 	
 	@Override
-	protected void validarDatos() {
-		if (!api.saldoSuficiente(cuenta)) {
+	protected void validarDatos(Pedido pedido) {
+		if (!api.saldoSuficiente(pedido.getUsuario().getBilleteraVirtual())) {
 			throw new IllegalArgumentException("Saldo insuficiente.");
 		}
 	}
 	
 	@Override
-    protected void reservarFondos(double monto) {
-		if (!api.bloqueoDeSaldo(getCuenta(), monto)) {
+    protected void reservarFondos(Pedido pedido, double monto) {
+		if (!api.bloqueoDeSaldo(pedido.getUsuario().getBilleteraVirtual(), monto)) {
 			throw new IllegalArgumentException("Error al bloquear fondos.");
 		}
     }
 	
 	@Override
-    protected String ejecutarTransaccion(double monto) {
-		return api.acreditarAlVendedor(getCuenta(), monto);
+    protected String ejecutarTransaccion(Pedido pedido, double monto) {
+		return api.acreditarAlVendedor(pedido.getUsuario().getBilleteraVirtual(), monto);
 	}
 
 	@Override
-	protected void notificarResultado(String códigoTransacción) {
-		api.enviarNotificacionPush(getCuenta(), códigoTransacción);
+	protected void notificarResultado(Pedido pedido, String códigoTransacción, double monto) {
+		api.enviarNotificacionPush(pedido.getUsuario().getBilleteraVirtual(), códigoTransacción);
     }
-
-	public String getCuenta() {
-		return cuenta;
-	}
 	
 }
