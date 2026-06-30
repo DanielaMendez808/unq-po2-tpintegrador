@@ -1,7 +1,5 @@
 package gestionDePedido;
 
-import ecommerce.Direccion;
-
 public class CorreoArgentina {
 	
 	public static float estimarEnvio(float peso, Direccion direccionEnvio ) {

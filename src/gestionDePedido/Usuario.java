@@ -1,10 +1,9 @@
-package ecommerce;
+package gestionDePedido;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import pagos.Comprobante;
-import pagos.NotaDeCredito;
 
 public class Usuario {
 	

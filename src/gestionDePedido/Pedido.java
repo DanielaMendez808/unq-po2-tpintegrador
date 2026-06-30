@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import catalogoEItems.Item;
-import ecommerce.Direccion;
-import ecommerce.Usuario;
 import notificaciones.PedidoObserver;
 import pagos.NotaDeCredito;
 
