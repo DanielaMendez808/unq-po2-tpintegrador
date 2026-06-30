@@ -17,5 +17,9 @@ public class EnvioExpress implements MetodoDeEnvio {
 	public int diasEstimados(Pedido pedido) {
 		return 1;
 	}
+	
+	public TipoDeMetodo getTipo() {
+		return TipoDeMetodo.EXPRESS;
+	}
 
 }

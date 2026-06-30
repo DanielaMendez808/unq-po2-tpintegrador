@@ -11,5 +11,9 @@ public class EnvioEstandar implements MetodoDeEnvio {
 		// entre 5 y 7
 		return 7;
 	}
+	
+	public TipoDeMetodo getTipo() {
+		return TipoDeMetodo.ESTANDAR;
+	}
 
 }

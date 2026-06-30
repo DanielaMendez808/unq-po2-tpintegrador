@@ -20,7 +20,7 @@ public class Borrador extends EstadoDePedido{
 	}
 	// si el cliente eligio retiro en sucursal, la revision de si hay stock se hace cuando se confirma 
 	public void confirmar() {
-		if (pedido.getMetodoDeEnvio() instanceof RetiroEnSucursal) {
+		if (pedido.getMetodoDeEnvio().getTipo() == TipoDeMetodo.RETIRO) {
 			pedido.decrementarStock(pedido.getSucursal());
 			pedido.setEstadoDePedido(new Confirmado(pedido));
 		} else {

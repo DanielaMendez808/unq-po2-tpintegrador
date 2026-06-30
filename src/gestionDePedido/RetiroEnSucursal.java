@@ -27,6 +27,9 @@ public class RetiroEnSucursal implements MetodoDeEnvio {
 	public Sucursal getSucursal() {
 		return this.sucursal;
 	}
-
+	
+	public TipoDeMetodo getTipo() {
+		return TipoDeMetodo.RETIRO;
+	}
 	
 }
