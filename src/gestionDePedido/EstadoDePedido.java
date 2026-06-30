@@ -1,7 +1,10 @@
 package gestionDePedido;
 
-public class EstadoDePedido { //mantener como abstract class?? creo que no hace falta. Que diferencia hay? Pensarlo a nivel mas teorico
-	Pedido pedido;
+public abstract class EstadoDePedido {
+	
+	protected Pedido pedido;
+	protected TipoDeEstado tipo;
+	
 	public EstadoDePedido(Pedido pedido) {
 		super();
 		this.pedido=pedido;
@@ -21,4 +24,13 @@ public class EstadoDePedido { //mantener como abstract class?? creo que no hace 
 	public void entregar() {
 		
 	}
+	
+	public TipoDeEstado getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(TipoDeEstado tipo) {
+		this.tipo = tipo;
+	}
+
 }

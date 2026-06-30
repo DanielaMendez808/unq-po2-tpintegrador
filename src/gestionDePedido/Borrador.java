@@ -5,6 +5,7 @@ import catalogoEItems.Item;
 public class Borrador extends EstadoDePedido{
 	public Borrador(Pedido pedido){
 		super(pedido);
+		setTipo(TipoDeEstado.BORRADOR);
 	}
 	public void agregarItem(Item item ) {
 		item.validarQueHayStockDelItem();
@@ -30,7 +31,5 @@ public class Borrador extends EstadoDePedido{
 	public void cancelar() {
 		pedido.setEstadoDePedido(new Cancelado(pedido));
 	}
-	
-	
 
 }
