@@ -8,7 +8,6 @@ import java.util.Set;
 
 import Exceptions.ErrorDeStockInsuficiente;
 import Exceptions.ErrorDeStringVacio;
-import ecommerce.ReporteVisitor;
 import gestionDePedido.Sucursal;
 
 public class Producto extends Item {
@@ -178,11 +177,6 @@ public class Producto extends Item {
 
 	public Set<AtributoDinamico> getAtributosDinamicos() {
 		return AtributosDinamicos;
-	}
-	
-	@Override
-	public void accept(ReporteVisitor visitor) {
-		visitor.visitProducto(this);
 	}
 
 }

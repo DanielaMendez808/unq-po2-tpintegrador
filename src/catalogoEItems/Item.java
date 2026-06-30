@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Exceptions.ErrorDeStringVacio;
-import ecommerce.ReporteVisitor;
 import gestionDePedido.Sucursal;
 
 public abstract class Item {
 		private String nombre;
 		private String descripcion;
 		private Map<Sucursal, Integer> depósito;
+		
 		private double descuento;
 		////////////VALIDACIONES DE CONSTRUCTOR////////////////
 		protected Item(String nombre, String descripcion,double precio, double descuento) {
@@ -64,7 +64,9 @@ public abstract class Item {
 		public void setDescuento(double descuento) {
 			this.descuento = descuento;
 		}
-
-		public abstract void accept(ReporteVisitor visitor);
+		
+		public Map<Sucursal, Integer> getDepósito() {
+			return depósito;
+		}
 		
 }

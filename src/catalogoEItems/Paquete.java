@@ -5,7 +5,6 @@ import java.util.List;
 
 import Exceptions.ErrorDeEdicionDePaquete;
 import Exceptions.ErrorDeStockInsuficiente;
-import ecommerce.ReporteVisitor;
 import gestionDePedido.Sucursal;
 
 public class Paquete extends Item {
@@ -117,7 +116,4 @@ public class Paquete extends Item {
 		return itemsDelPaquete;
 	}
 	
-	public void accept(ReporteVisitor visitor) {
-		visitor.visitPaquete(this);
-	}
 }
