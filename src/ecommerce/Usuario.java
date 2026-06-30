@@ -13,6 +13,7 @@ public class Usuario {
 	String cbu;
 	String billeteraVirtual;
 	String tarjeta;
+	String email;
 	List<Comprobante> comprobantes = new ArrayList<> ();
 	
 	public void agregarComprobante(Comprobante comprobante) {
@@ -41,6 +42,10 @@ public class Usuario {
 
 	public String getBilleteraVirtual() {
 		return billeteraVirtual;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 	
 }

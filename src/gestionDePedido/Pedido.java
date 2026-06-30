@@ -5,16 +5,18 @@ import java.util.List;
 import catalogoEItems.Item;
 import ecommerce.Direccion;
 import ecommerce.Usuario;
+import notificaciones.PedidoObserver;
 import pagos.NotaDeCredito;
 
 public class Pedido {
-	Usuario usuario;
+	private Usuario usuario;
 	private MetodoDeEnvio metodoDeEnvio;
-	EstadoDePedido estadoActual;
-	List <Item> carrito = new ArrayList <>(); //admite items repetidos
-	Direccion direccionDeEntrega;
-	Sucursal sucursalElegida;
-	String idPago;
+	private EstadoDePedido estadoActual;
+	private List <Item> carrito = new ArrayList <>(); //admite items repetidos
+	private Direccion direccionDeEntrega;
+	private Sucursal sucursalElegida;
+	private String idPago;
+	private List<PedidoObserver> suscriptores = new ArrayList <>();
 	
 	public double precioAPagar() {
 		return carrito.stream().mapToDouble(item->item.precioBaseCalculado()).sum();
@@ -22,8 +24,15 @@ public class Pedido {
 	}
 	/////////////////////ESTADO DE PEDIDO/////////////////////////////////////
 	public void setEstadoDePedido(EstadoDePedido nuevoEstado) {
+		EstadoDePedido anterior = this.estadoActual; //agregar al constructor estado inicial borrador
 		this.estadoActual= nuevoEstado;
+		this.notificar(anterior, nuevoEstado);
 	}
+	
+	public EstadoDePedido getEstadoDePedido() {
+		return estadoActual;
+	}
+	
 	public void reponerStock() {
 		carrito.stream().forEach(item->item.incrementarStock());
 		carrito.clear();
@@ -98,4 +107,24 @@ public class Pedido {
 	public void setId(String id) {
 		this.idPago = id;
 	}
+	
+	public List<PedidoObserver> getSuscriptores() {
+		return suscriptores;
+	}
+	
+	public void agregarSuscriptor(PedidoObserver suscriptor) {
+		getSuscriptores().add(suscriptor);
+	}
+	
+	public void eliminarSuscriptor(PedidoObserver suscriptor) {
+		getSuscriptores().remove(suscriptor);
+	}
+	
+	//private para que nadie modifique
+	private void notificar(EstadoDePedido anterior, EstadoDePedido nuevo) {
+		for(PedidoObserver suscriptor : getSuscriptores()) {
+			suscriptor.actualizar(this, anterior, nuevo);
+		}
+	}
+	
 }
