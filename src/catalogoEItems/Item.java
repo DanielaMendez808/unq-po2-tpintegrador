@@ -10,7 +10,6 @@ public abstract class Item {
 		private String nombre;
 		private String descripcion;
 		private Map<Sucursal, Integer> depósito;
-		
 		private double descuento;
 		////////////VALIDACIONES DE CONSTRUCTOR////////////////
 		protected Item(String nombre, String descripcion,double precio, double descuento) {

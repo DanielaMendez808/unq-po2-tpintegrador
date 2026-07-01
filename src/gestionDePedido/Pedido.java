@@ -1,4 +1,5 @@
 package gestionDePedido;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class Pedido {
 	private Direccion direccionDeEntrega;
 	private Sucursal sucursalElegida;
 	private String idPago;
+	private LocalDate fecha;
 	private List<PedidoObserver> suscriptores = new ArrayList <>();
 	
 	public double precioAPagar() {
@@ -104,6 +106,14 @@ public class Pedido {
 	
 	public void setId(String id) {
 		this.idPago = id;
+	}
+	
+	public LocalDate getFecha() {
+		return fecha;
+	}
+	
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 	
 	public List<PedidoObserver> getSuscriptores() {

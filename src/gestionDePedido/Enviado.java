@@ -1,5 +1,7 @@
 package gestionDePedido;
 
+import java.time.LocalDate;
+
 public class Enviado extends EstadoDePedido {
 	public Enviado(Pedido pedido) {
 		super(pedido);
@@ -7,6 +9,7 @@ public class Enviado extends EstadoDePedido {
 	}
 	public void entregar() {
 		pedido.setEstadoDePedido(new Entregado(pedido));
+		pedido.setFecha(LocalDate.now());
 	}
 	public void cancelar() {
 		pedido.reembolsarCostoDeProductos();

@@ -2,12 +2,6 @@ package reportes;
 
 public interface ReporteVisitor {
 	
-	public void visit();
+	public void visit(ReporteDeProductosMasVendidos reporte);
 	
 }
-
-//clase IElement public abstract void accept(ReporteVisitor visitor);
-
-//ConcElement public void accept(ReporteVisitor visitor) {
-//	visitor.visit(this);
-//}
