@@ -12,35 +12,28 @@ import gestionDePedido.Sucursal;
 
 public class Producto extends Item {
 	private Map<Sucursal, Integer> depósito;
-	private int SKU;
 	private String marca;
-	private String categoria;
-	private double peso;
-	private double precioInicial;
+
 	private Set<AtributoDinamico> AtributosDinamicos = new HashSet<>();
 
 	////////////////CONSTRUCTOR///////////////////////////
 	/// 
-	public Producto(int SKU, String nombre, String marca, String categoria, String descripcion, double peso,
+	public Producto(String nombre, String marca, String categoria, String descripcion, double peso,
 			double precio, double descuento) {
-		super(nombre, descripcion, precio, descuento);
+		super(nombre, descripcion, precio, descuento,categoria,peso);
 		this.validarQueNoHayStringsVacios();
 		this.marca = marca;
-		this.categoria = categoria;
-		this.peso = peso;
-		this.precioInicial = precio;
-		// poner precio BaseCaculado como atributo?
 	}
 
 	@Override
 	public void validarQueNoHayStringsVacios() {
 		super.validarQueNoHayStringsVacios();
-		if (marca.isBlank() || categoria.isBlank()) {
+		if (marca.isBlank() ) {
 			throw new ErrorDeStringVacio("Hay parametros de tipo strings vacios");
 		}
 	}
 
-	/////////////////////// ATRIBUTOS DINAMICOS
+	/////////////////////// ATRIBUTOS DINAMICOS //////////////
 	public void agregarAtributoDinamico(AtributoDinamico atributoNuevo) {
 		this.validarAtributoDinamico(atributoNuevo);
 		this.verificarQueElAtributoNoExisteAntesEnElProducto(atributoNuevo);
@@ -130,18 +123,8 @@ public class Producto extends Item {
 	}
 	
 	//////PRECIO////////
-	public double precioBaseCalculado() {
-		return this.getPrecioInicial() * (1 - this.getDescuento());
-	}
 
 	/////////////////////CONSTRUCTORES/////////////////////////////
-	public int getSKU() {
-		return SKU;
-	}
-
-	public void setSKU(int sKU) {
-		SKU = sKU;
-	}
 
 	public String getMarca() {
 		return marca;
@@ -165,14 +148,6 @@ public class Producto extends Item {
 
 	public void setPeso(double peso) {
 		this.peso = peso;
-	}
-
-	public double getPrecioInicial() {
-		return precioInicial;
-	}
-
-	public void setPrecioInicial(double precioInicial) {
-		this.precioInicial = precioInicial;
 	}
 
 	public Set<AtributoDinamico> getAtributosDinamicos() {

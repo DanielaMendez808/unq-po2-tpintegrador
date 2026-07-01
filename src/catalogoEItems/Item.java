@@ -9,18 +9,29 @@ import gestionDePedido.Sucursal;
 public abstract class Item {
 		private String nombre;
 		private String descripcion;
+		private double precioInicial;
 		private Map<Sucursal, Integer> depósito;
 		private double descuento;
+		private String categoria;
+		private double peso;
+		private static int contadorSKU = 0; //static para que la variable sea homogenea en todos los items
+		private final int SKU; //final para que no se pueda modificar, sino podria fallar con el diseño de SKU que elegimos
+		
 		////////////VALIDACIONES DE CONSTRUCTOR////////////////
-		protected Item(String nombre, String descripcion,double precio, double descuento) {
+		protected Item(String nombre, String descripcion,double precio, double descuento, String categoria, double peso, Sucursal sucursal) {
 			super();
 			this.nombre= nombre;
 			this.descripcion=descripcion;
+			this.precioInicial=precio;
 			this.descuento=descuento;
-			this.depósito = new HashMap<>();
+			this.categoria=categoria;
+			this.peso=peso;
+			this.depósito = new HashMap<>(Map.of(sucursal, 0));
+			contadorSKU=contadorSKU+1;
+			this.SKU= contadorSKU;
 		}
 		public void validarQueNoHayStringsVacios() {
-			if (nombre.isBlank() || descripcion.isBlank()) {
+			if (nombre.isBlank() || descripcion.isBlank()|| categoria.isBlank()) {
 				throw new ErrorDeStringVacio("Hay parametros de tipo strings vacios");
 			}
 		}
@@ -37,7 +48,9 @@ public abstract class Item {
 			
 		}
 		//////////PRECIO/////////
-		public abstract double precioBaseCalculado();
+		public double precioBaseCalculado() {
+			return this.getPrecioInicial()* (1-this.getDescuento());
+		}
 		///////////////////////////GETTERS Y SETTERS/////////////////////////////
 		public String getNombre() {
 			return nombre;
@@ -50,6 +63,18 @@ public abstract class Item {
 		}
 		public void setDescripcion(String descripcion) {
 			this.descripcion = descripcion;
+		}
+		public double getPrecioInicial() {
+			return precioInicial;
+		}
+		public void setPrecioInicial(double precioInicial) {
+			this.precioInicial = precioInicial;
+		}
+		public double getPeso() {
+			return peso;
+		}
+		public void setPeso(double peso) {
+			this.peso = peso;
 		}
 		public abstract int getStock();
 		
