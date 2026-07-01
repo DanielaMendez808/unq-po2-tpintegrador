@@ -1,16 +1,23 @@
 package reportes;
 
+import catalogoEItems.Item;
+
 public class ItemVendido {
 	
 	private String nombre;
 	private int cantUnidades;
-	private float precioPromedio;
+	private double recaudación;
 	
-	public ItemVendido(String nombre, int cantUnidades, float precioPromedio) {
-		this.nombre = nombre;
-		this.cantUnidades = cantUnidades;
-		this.precioPromedio = precioPromedio;
+	public ItemVendido(Item item) {
+		this.nombre = item.getNombre();
+		this.cantUnidades = 1;
+		this.recaudación = item.precioBaseCalculado();
 	}
+	
+	public void acumularVenta(Item item) {
+        this.cantUnidades++;
+        this.recaudación += item.precioBaseCalculado();
+    }
 
 	public String getNombre() {
 		return nombre;
@@ -20,8 +27,13 @@ public class ItemVendido {
 		return cantUnidades;
 	}
 
-	public float getPrecioPromedio() {
-		return precioPromedio;
+	public double getRecaudación() {
+		return recaudación;
+		
 	}
+	
+	public double getPrecioPromedio() {
+		return this.recaudación / this.cantUnidades;
+    }
 
 }
