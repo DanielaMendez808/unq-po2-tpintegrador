@@ -16,10 +16,12 @@ class TestCriterioNombre {
 	private Item cargadorTipoC;
 	private Item teclado;
 	private CriterioNombre buscarCargadorTipoC;
+	private CriterioNombre buscarCargador;
 	
 	@BeforeEach
 	public void setUp() {
 		buscarCargadorTipoC = new CriterioNombre("Cargador Tipo c");
+		buscarCargador= new CriterioNombre("cargador");
 		
 		cargadorTipoA = mock(Item.class);
 		when(cargadorTipoA.getNombre()).thenReturn("Cargador Tipo A");
@@ -41,6 +43,10 @@ class TestCriterioNombre {
 	void testNoCumpleConNombreValido() {
 		assertFalse(buscarCargadorTipoC.cumple(cargadorTipoA));
 	
+	}
+	@Test
+	void testCumpleConNombreContenidoYEnMinuscula() {
+		assertTrue(buscarCargador.cumple(cargadorTipoC));
 	}
 	
 }
