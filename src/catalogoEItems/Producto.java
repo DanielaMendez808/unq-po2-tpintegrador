@@ -75,8 +75,8 @@ public class Producto extends Item {
 		this.setDepósito(nuevoStock);
 	}
 	
-	public int getStockEnSucursal(Sucursal sucursal) {
-        return this.getDepósito().getOrDefault(sucursal, 0);
+	public int getStockEnSucursal() {
+        return this.getDepósito().getOrDefault(getSucursal(), 0);
     }
 	
 	public void validarQueHayStockDelItem() {
@@ -85,40 +85,17 @@ public class Producto extends Item {
 		}
 	}
 	
-	public void decrementarStock(Sucursal sucursal) {
-        int stockActual = getStockEnSucursal(sucursal);
-        if (stockActual == 0) {
+	public void decrementarStock() {
+        if (getStockEnSucursal() == 0) {
             throw new ErrorDeStockInsuficiente("No hay stock suficiente en la sucursal.");
         }
-        this.getDepósito().put(sucursal, stockActual - 1);
-    }
-	
-	@Override
-	public void decrementarStock() {
-		Sucursal sucursalConStock = this.getDepósito().entrySet().stream() //para usar streams
-		        .filter(entrada -> entrada.getValue() > 0) //filtro > 0
-		        .map(Map.Entry::getKey) //tomo sucursal
-		        .findFirst() //busco el primero
-		        .orElseThrow(() -> new ErrorDeStockInsuficiente(
-		            "No hay stock disponible en ningún depósito para el producto"));
-		        this.getDepósito().put(sucursalConStock, this.getDepósito().get(sucursalConStock) - 1); //descuenta si encuentra
-		}
-	
-	public void incrementarStock(Sucursal sucursal) {
-        int stockActual = getStockEnSucursal(sucursal);
-        this.getDepósito().put(sucursal, stockActual + 1);
+        this.getDepósito().merge(this.getSucursal(), -1, Integer::sum);
     }
 	
 	@Override
 	public void incrementarStock() {
-	    Sucursal primeraSucursal = this.getDepósito().keySet().stream()
-	        .findFirst() //primera sucursal
-	        .orElseThrow(() -> new RuntimeException(
-	            "No tiene sucursal asignada."
-	        ));
-	    int stockActual = this.getDepósito().getOrDefault(primeraSucursal, 0);
-	    this.getDepósito().put(primeraSucursal, stockActual + 1);
-	}
+        this.getDepósito().merge(this.getSucursal(), 1, Integer::sum);
+    }
 	
 	//////PRECIO////////
 

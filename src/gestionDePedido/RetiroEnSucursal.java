@@ -21,7 +21,7 @@ public class RetiroEnSucursal implements MetodoDeEnvio {
 	
 	public boolean hayStockDeTodo(Pedido pedido) {
 		return pedido.getCarrito().stream()
-				.allMatch(item -> item.getStockEnSucursal(pedido.getSucursal()) > 0);
+				.allMatch(item -> item.getStockEnSucursal() > 0);
 	}
 
 	public Sucursal getSucursal() {

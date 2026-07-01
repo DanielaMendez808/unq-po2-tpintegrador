@@ -14,6 +14,7 @@ public abstract class Item {
 		private double descuento;
 		private String categoria;
 		private double peso;
+		private Sucursal sucursal;
 		private static int contadorSKU = 0; //static para que la variable sea homogenea en todos los items
 		private final int SKU; //final para que no se pueda modificar, sino podria fallar con el diseño de SKU que elegimos
 		
@@ -26,7 +27,8 @@ public abstract class Item {
 			this.descuento=descuento;
 			this.categoria=categoria;
 			this.peso=peso;
-			this.depósito = new HashMap<>(Map.of(sucursal, 0));
+			this.sucursal=sucursal;
+			this.depósito = new HashMap<>(Map.of(this.sucursal, 0));
 			contadorSKU=contadorSKU+1;
 			this.SKU= contadorSKU;
 			AppEcommerce.getInstancia().agregarItem(this); //cada vez que se cree un Item, va al la lista llamada "catalogo" de el objeto appEcommerce
@@ -39,11 +41,9 @@ public abstract class Item {
 		///////////////STOCK////////////////////
 		public abstract boolean tieneStock();
 		
-		public abstract void decrementarStock(Sucursal sucursal);
 		public abstract void decrementarStock();
-		public abstract void incrementarStock(Sucursal sucursal);
 		public abstract void incrementarStock();
-		public abstract int getStockEnSucursal(Sucursal sucursal);
+		public abstract int getStockEnSucursal();
 		
 		public void validarQueHayStockDelItem() {
 			
@@ -105,5 +105,10 @@ public abstract class Item {
 		public void setCategoria(String categoria) {
 			this.categoria = categoria;
 		}
-		
+		public Sucursal getSucursal() {
+			return sucursal;
+		}
+		public void setSucursal(Sucursal sucursal) {
+			this.sucursal = sucursal;
+		}
 }

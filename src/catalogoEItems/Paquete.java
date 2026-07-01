@@ -43,25 +43,20 @@ public class Paquete extends Item {
                     .orElse(0);
     }
 	
-	public int getStockEnSucursal(Sucursal sucursal) {
+	public int getStockEnSucursal() {
         if (itemsDelPaquete.isEmpty()) return 0;
         return itemsDelPaquete.stream()
-                    .mapToInt(item -> item.getStockEnSucursal(sucursal))
+                    .mapToInt(item -> item.getStockEnSucursal())
                     .min()
                     .orElse(0);
     }
 	
 	@Override
-	public void incrementarStock(Sucursal sucursal) {
+	public void incrementarStock() {
         for (Item item : itemsDelPaquete) {
-            item.incrementarStock(sucursal);
+            item.incrementarStock();
         }
     }
-	
-	@Override
-	public void incrementarStock() {
-		itemsDelPaquete.stream().forEach(Item::incrementarStock);
-	}
 	
 	public void validarQueExisteStockParaArmarPaquete() {
 		if(!this.existeStockDeCadaItemEnPaquete()) {
@@ -73,19 +68,15 @@ public class Paquete extends Item {
 	}
 	
 	@Override
-    public void decrementarStock(Sucursal sucursal) {
+    public void decrementarStock() {
 		if(!this.existeStockDeCadaItemEnPaquete()) {
 			throw new ErrorDeStockInsuficiente("Error: No hay stock para armar el paquete " + this.getNombre());
 		}
         for (Item item : itemsDelPaquete) {
-            item.decrementarStock(sucursal);
+            item.decrementarStock();
         }
     }
 	
-	@Override
-	public void decrementarStock() {
-		itemsDelPaquete.stream().forEach(Item::decrementarStock);
-	}
 	/////PRECIO/////////
 	/// 
 	////////////AGREGAR Y BORRAR ITEMS DE PAQUETE///////
