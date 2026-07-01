@@ -10,4 +10,8 @@ public class CriterioPrecioMaximo {
 	public double getPrecioMaximo(){
 		return this.precioMaximo;
 	}
+	public CriterioPrecioMaximo(double precioMaximo) {
+		super();
+		this.precioMaximo = precioMaximo;
+	}
 }
