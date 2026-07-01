@@ -11,16 +11,14 @@ import Exceptions.ErrorDeStringVacio;
 import gestionDePedido.Sucursal;
 
 public class Producto extends Item {
-	private Map<Sucursal, Integer> depósito;
 	private String marca;
-
 	private Set<AtributoDinamico> AtributosDinamicos = new HashSet<>();
 
 	////////////////CONSTRUCTOR///////////////////////////
 	/// 
 	public Producto(String nombre, String marca, String categoria, String descripcion, double peso,
-			double precio, double descuento) {
-		super(nombre, descripcion, precio, descuento,categoria,peso);
+			double precio, double descuento,Sucursal sucursal) {
+		super(nombre, descripcion, precio, descuento,categoria,peso,sucursal);
 		this.validarQueNoHayStringsVacios();
 		this.marca = marca;
 	}
@@ -70,15 +68,15 @@ public class Producto extends Item {
 	}
 	
 	public int getStock() {
-		return depósito.values().stream().mapToInt(Integer::intValue).sum();
+		return this.getDepósito().values().stream().mapToInt(Integer::intValue).sum();
 	}
 	
 	public void setStock(Map<Sucursal, Integer> nuevoStock) {
-		this.depósito = nuevoStock;
+		this.setDepósito(nuevoStock);
 	}
 	
 	public int getStockEnSucursal(Sucursal sucursal) {
-        return depósito.getOrDefault(sucursal, 0);
+        return this.getDepósito().getOrDefault(sucursal, 0);
     }
 	
 	public void validarQueHayStockDelItem() {
@@ -92,34 +90,34 @@ public class Producto extends Item {
         if (stockActual == 0) {
             throw new ErrorDeStockInsuficiente("No hay stock suficiente en la sucursal.");
         }
-        depósito.put(sucursal, stockActual - 1);
+        this.getDepósito().put(sucursal, stockActual - 1);
     }
 	
 	@Override
 	public void decrementarStock() {
-		Sucursal sucursalConStock = depósito.entrySet().stream() //para usar streams
+		Sucursal sucursalConStock = this.getDepósito().entrySet().stream() //para usar streams
 		        .filter(entrada -> entrada.getValue() > 0) //filtro > 0
 		        .map(Map.Entry::getKey) //tomo sucursal
 		        .findFirst() //busco el primero
 		        .orElseThrow(() -> new ErrorDeStockInsuficiente(
 		            "No hay stock disponible en ningún depósito para el producto"));
-		        depósito.put(sucursalConStock, depósito.get(sucursalConStock) - 1); //descuenta si encuentra
+		        this.getDepósito().put(sucursalConStock, this.getDepósito().get(sucursalConStock) - 1); //descuenta si encuentra
 		}
 	
 	public void incrementarStock(Sucursal sucursal) {
         int stockActual = getStockEnSucursal(sucursal);
-        depósito.put(sucursal, stockActual + 1);
+        this.getDepósito().put(sucursal, stockActual + 1);
     }
 	
 	@Override
 	public void incrementarStock() {
-	    Sucursal primeraSucursal = depósito.keySet().stream()
+	    Sucursal primeraSucursal = this.getDepósito().keySet().stream()
 	        .findFirst() //primera sucursal
 	        .orElseThrow(() -> new RuntimeException(
 	            "No tiene sucursal asignada."
 	        ));
-	    int stockActual = depósito.getOrDefault(primeraSucursal, 0);
-	    depósito.put(primeraSucursal, stockActual + 1);
+	    int stockActual = this.getDepósito().getOrDefault(primeraSucursal, 0);
+	    this.getDepósito().put(primeraSucursal, stockActual + 1);
 	}
 	
 	//////PRECIO////////
@@ -132,22 +130,6 @@ public class Producto extends Item {
 
 	public void setMarca(String marca) {
 		this.marca = marca;
-	}
-
-	public String getCategoria() {
-		return categoria;
-	}
-
-	public void setCategoria(String categoria) {
-		this.categoria = categoria;
-	}
-
-	public double getPeso() {
-		return peso;
-	}
-
-	public void setPeso(double peso) {
-		this.peso = peso;
 	}
 
 	public Set<AtributoDinamico> getAtributosDinamicos() {

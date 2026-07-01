@@ -1,6 +1,6 @@
 package Busqueda;
 
-import ecommerce.Item;
+import catalogoEItems.Item;
 
 public interface Criterio {
 	boolean cumple(Item item);

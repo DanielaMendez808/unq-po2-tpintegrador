@@ -3,6 +3,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import catalogoEItems.AppEcommerce;
 import catalogoEItems.Item;
 import notificaciones.PedidoObserver;
 import pagos.NotaDeCredito;
@@ -22,6 +23,23 @@ public class Pedido {
 		return carrito.stream().mapToDouble(item->item.precioBaseCalculado()).sum();
 		
 	}
+	
+	public Pedido(Usuario usuario, MetodoDeEnvio metodoDeEnvio, EstadoDePedido estadoActual, List<Item> carrito,
+			Direccion direccionDeEntrega, Sucursal sucursalElegida, String idPago, LocalDate fecha,
+			List<PedidoObserver> suscriptores) {
+		super();
+		this.usuario = usuario;
+		this.metodoDeEnvio = metodoDeEnvio;
+		this.estadoActual = new Borrador(this);
+		this.carrito = carrito;
+		this.direccionDeEntrega = direccionDeEntrega; // la direccion de entrega es obligaria en todos los casos de metodo de entrega?
+		this.sucursalElegida = sucursalElegida;
+		this.idPago = idPago;
+		this.fecha = fecha;
+		this.suscriptores = suscriptores;
+		AppEcommerce.getInstancia().agregarPedidoAHistorial(this);
+	}
+
 	/////////////////////ESTADO DE PEDIDO/////////////////////////////////////
 	public void setEstadoDePedido(EstadoDePedido nuevoEstado) {
 		EstadoDePedido anterior = this.estadoActual; //agregar al constructor estado inicial borrador

@@ -29,6 +29,7 @@ public abstract class Item {
 			this.depósito = new HashMap<>(Map.of(sucursal, 0));
 			contadorSKU=contadorSKU+1;
 			this.SKU= contadorSKU;
+			AppEcommerce.getInstancia().agregarItem(this); //cada vez que se cree un Item, va al la lista llamada "catalogo" de el objeto appEcommerce
 		}
 		public void validarQueNoHayStringsVacios() {
 			if (nombre.isBlank() || descripcion.isBlank()|| categoria.isBlank()) {
@@ -78,6 +79,12 @@ public abstract class Item {
 		}
 		public abstract int getStock();
 		
+		public String getCategoria() {
+			return categoria;
+		}
+		public int getSKU() {
+			return SKU;
+		}
 		public void setStock(Map<Sucursal, Integer> nuevoStock) {
 			
 		}
@@ -91,6 +98,12 @@ public abstract class Item {
 		
 		public Map<Sucursal, Integer> getDepósito() {
 			return depósito;
+		}
+		public void setDepósito(Map<Sucursal, Integer> depósito) {
+			this.depósito = depósito;
+		}
+		public void setCategoria(String categoria) {
+			this.categoria = categoria;
 		}
 		
 }

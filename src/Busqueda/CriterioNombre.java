@@ -1,6 +1,6 @@
 package Busqueda;
 
-import ecommerce.Item;
+import catalogoEItems.Item;
 
 public class CriterioNombre implements Criterio{
 	private String nombre;

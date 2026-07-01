@@ -1,5 +1,7 @@
 package gestionDePedido;
 
+import Exceptions.ErrorAlCambiarEstadoDePedido;
+
 public abstract class EstadoDePedido {
 	
 	protected Pedido pedido;
@@ -10,19 +12,19 @@ public abstract class EstadoDePedido {
 		this.pedido=pedido;
 	}
 	public void confirmar() {
-		throw new ConfirmacionException("No se puede confirmar desde este estado");
+		throw new ErrorAlCambiarEstadoDePedido("No se puede confirmar el pedido desde este estado");
 	}
 	public void cancelar() {
-		throw new CancelarException("No se puede cancelar desde este estado");
+		throw new ErrorAlCambiarEstadoDePedido("No se puede cancelar el pedido desde este estado");
 	}
 	public void preparar() {
-		
+		throw new ErrorAlCambiarEstadoDePedido("No se puede preparar el pedido desde este estado");
 	}
 	public void enviar() {
-		
+		throw new ErrorAlCambiarEstadoDePedido("No se puede enviar  el pedido desde este estado");
 	}
 	public void entregar() {
-		
+		throw new ErrorAlCambiarEstadoDePedido("No se puede entregar  el pedido desde este estado");
 	}
 	
 	public TipoDeEstado getTipo() {

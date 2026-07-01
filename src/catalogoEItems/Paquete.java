@@ -10,14 +10,15 @@ import gestionDePedido.Sucursal;
 public class Paquete extends Item {
 	private List <Item> itemsDelPaquete = new ArrayList<>();
 ///////////CONSTRUCTOR/////////////
-	public Paquete(String nombre, String descripcion, ArrayList<Item> itemsDelPaquete, double descuento, String categoria) {
+	public Paquete(String nombre, String descripcion, ArrayList<Item> itemsDelPaquete, double descuento, String categoria, Sucursal sucursal) {
 		super(
 				nombre, 
 				descripcion, 
 				itemsDelPaquete.stream().mapToDouble(item ->item.precioBaseCalculado()).sum(), 
 				descuento,
 				categoria,
-				itemsDelPaquete.stream().mapToDouble(item ->item.getPeso()).sum()
+				itemsDelPaquete.stream().mapToDouble(item ->item.getPeso()).sum(),
+				sucursal
 				
 		);
 		this.itemsDelPaquete =itemsDelPaquete;
