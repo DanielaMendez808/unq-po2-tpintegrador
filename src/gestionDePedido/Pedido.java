@@ -12,7 +12,7 @@ public class Pedido {
 	private Usuario usuario;
 	private MetodoDeEnvio metodoDeEnvio;
 	private EstadoDePedido estadoActual;
-	private List <Item> carrito = new ArrayList <>(); //admite items repetidos
+	private List <Item> carrito;
 	private Direccion direccionDeEntrega;
 	private Sucursal sucursalElegida;
 	private String idPago;
@@ -24,17 +24,12 @@ public class Pedido {
 		
 	}
 	
-	public Pedido(Usuario usuario, MetodoDeEnvio metodoDeEnvio, EstadoDePedido estadoActual, List<Item> carrito,
-			Direccion direccionDeEntrega, Sucursal sucursalElegida, String idPago, LocalDate fecha,
+	public Pedido(Usuario usuario, EstadoDePedido estadoActual, List<Item> carrito, LocalDate fecha,
 			List<PedidoObserver> suscriptores) {
 		super();
 		this.usuario = usuario;
-		this.metodoDeEnvio = metodoDeEnvio;
 		this.estadoActual = new Borrador(this);
-		this.carrito = carrito;
-		this.direccionDeEntrega = direccionDeEntrega; // la direccion de entrega es obligaria en todos los casos de metodo de entrega?
-		this.sucursalElegida = sucursalElegida;
-		this.idPago = idPago;
+		this.carrito = new ArrayList <>(); //admite items repetidos;
 		this.fecha = fecha;
 		this.suscriptores = suscriptores;
 		AppEcommerce.getInstancia().agregarPedidoAHistorial(this);
@@ -42,7 +37,7 @@ public class Pedido {
 
 	/////////////////////ESTADO DE PEDIDO/////////////////////////////////////
 	public void setEstadoDePedido(EstadoDePedido nuevoEstado) {
-		EstadoDePedido anterior = this.estadoActual; //agregar al constructor estado inicial borrador
+		EstadoDePedido anterior = this.estadoActual;
 		this.estadoActual= nuevoEstado;
 		this.notificar(anterior, nuevoEstado);
 	}
@@ -55,30 +50,26 @@ public class Pedido {
 		carrito.stream().forEach(item->item.incrementarStock());
 		carrito.clear();
 	}
+	
 	public void decrementarStock() {
 		carrito.stream().forEach(item->item.decrementarStock());
 		
 	}
 	
-	public void decrementarStock(Sucursal sucursal) {
-		carrito.stream().forEach(item->item.decrementarStock(sucursal));
-	}
-	
-	public void incrementarStock(Sucursal sucursal) {
-		carrito.stream().forEach(item->item.incrementarStock(sucursal));
+	public void incrementarStock() {
+		carrito.stream().forEach(item->item.incrementarStock());
 	}
 	
 	public void reembolsarCostoDeProductos(){
 		usuario.agregarComprobante(new NotaDeCredito(getId(), precioAPagar()));
 		
 	}
-	public void reembolsarCostoDeEnvio() {// el costo de productos vuelve a ser 0 porque la lista se vacia, pero el costo de envio tambien habria que cambiarlo?
-		
+	public void reembolsarCostoDeEnvio() {
 		usuario.agregarComprobante(new NotaDeCredito(getId(), this.costoEnvio()));
 	}
 	public void validarQueElItemEstaEnElCarrito(Item item) {
 		if(!this.getCarrito().contains(item)) {
-			throw new RuntimeException ("No hay"+item.nombre()+ "en el carrito");
+			throw new RuntimeException ("No hay"+item.getNombre()+ "en el carrito");
 		}
 	}
 	
@@ -96,11 +87,11 @@ public class Pedido {
 	}
 	public void setMetodoDeEnvio(MetodoDeEnvio metodo, Sucursal sucursal) {
 		this.metodoDeEnvio = metodo;
-		this.sucursalElegida = sucursal; //si no usa sucursal es null
-    }
+		this.sucursalElegida = sucursal;
+    } 
 	
 	public double getPesoTotal() {
-		return  carrito.stream().mapToDouble(item->item.peso()).sum();
+		return  carrito.stream().mapToDouble(item->item.getPeso()).sum();
 	}
 	
 	public Direccion getDireccionDeEntrega() {
@@ -153,4 +144,13 @@ public class Pedido {
 		}
 	}
 	
+	public void setEnvio(Direccion direccion, Sucursal sucursal,  MetodoDeEnvio metodo) {
+		this.setMetodoDeEnvio(metodo, sucursal);
+		this.setDireccionDeEntrega(direccion);
+	}
+
+	public void setDireccionDeEntrega(Direccion direccionDeEntrega) {
+		this.direccionDeEntrega = direccionDeEntrega;
+	}
+
 }
