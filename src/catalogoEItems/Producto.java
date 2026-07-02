@@ -82,7 +82,7 @@ public class Producto extends Item {
 	
 	public void validarQueHayStockDelItem() {
 		if (!this.tieneStock()) {
-			throw new RuntimeException("No hay stock de " + this.getNombre());
+			throw new ErrorDeStockInsuficiente("No hay stock de " + this.getNombre());
 		}
 	}
 	
