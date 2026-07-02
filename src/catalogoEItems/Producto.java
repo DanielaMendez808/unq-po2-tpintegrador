@@ -77,7 +77,7 @@ public class Producto extends Item {
 	}
 	
 	public int getStockEnSucursal() {
-        return this.getDepósito().getOrDefault(getSucursal(), 0);
+        return this.getDepósito().get(getSucursal());
     }
 	
 	public void validarQueHayStockDelItem() {
