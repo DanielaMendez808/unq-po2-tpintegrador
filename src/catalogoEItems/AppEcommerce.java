@@ -5,12 +5,14 @@ import java.util.List;
 
 import Exceptions.ErrorDeCatalogo;
 import gestionDePedido.Pedido;
+import reportes.Reporte;
 
 public class AppEcommerce { //patron singleton
 	// La única instancia que va a existir
     private static AppEcommerce instanciaUnica;
     private final List<Item> catalogo = new ArrayList<>();
     private final List<Pedido> historialDePedidos= new ArrayList <>();
+    private final List<Reporte> reportes = new ArrayList <>();
     // Constructor PRIVADO: nadie desde afuera puede hacer "new Catalogo()"
     private AppEcommerce() {}
 
@@ -51,4 +53,9 @@ public class AppEcommerce { //patron singleton
 	public List<Pedido> getHistorialDePedidos() {
 		return historialDePedidos;
 	}
+
+	public List<Reporte> getReportes() {
+		return reportes;
+	}
+	
 }
