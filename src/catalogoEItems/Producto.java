@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import Exceptions.ErrorDeAtributoDinamico;
 import Exceptions.ErrorDeStockInsuficiente;
 import Exceptions.ErrorDeStringVacio;
 import gestionDePedido.Sucursal;
@@ -19,8 +20,8 @@ public class Producto extends Item {
 	public Producto(String nombre, String marca, String categoria, String descripcion, double peso,
 			double precio, double descuento,Sucursal sucursal) {
 		super(nombre, descripcion, precio, descuento,categoria,peso,sucursal);
-		this.validarQueNoHayStringsVacios();
 		this.marca = marca;
+		this.validarQueNoHayStringsVacios();
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class Producto extends Item {
 
 	public void validarAtributoDinamico(AtributoDinamico atributoNuevo) {
 		if (algunStringEstaVacio(atributoNuevo)) {
-			throw new RuntimeException("Error: Un atributo dinamico esta vacio");
+			throw new ErrorDeAtributoDinamico("Error: Un atributo dinamico esta vacio");
 		}
 	}
 
@@ -50,7 +51,7 @@ public class Producto extends Item {
 
 	public void verificarQueElAtributoNoExisteAntesEnElProducto(AtributoDinamico atributoNuevo) {
 		if (this.existeAtributoDinamicoNuevoEnElProducto(atributoNuevo)) {
-			throw new RuntimeException(
+			throw new ErrorDeAtributoDinamico(
 					"Error: El atributo " + atributoNuevo.getNombre() + "ya existe en el producto" + this.getNombre());
 		}
 	}
@@ -58,7 +59,7 @@ public class Producto extends Item {
 	public boolean existeAtributoDinamicoNuevoEnElProducto(AtributoDinamico nuevoAtributo) {
 		ArrayList<String> AtributosFijos = new ArrayList<>(
 				Arrays.asList("SKU", "nombre", "marca", "categoria", "precio", "precioFinal", "peso", "descripcion"));
-		return (AtributosFijos.contains(nuevoAtributo.getNombre()));
+		return (AtributosFijos.contains(nuevoAtributo.getNombre())) || this.getAtributosDinamicos().contains(nuevoAtributo);
 	}
 
 	//////////////////////STOCK//////////////////////////////// 
