@@ -29,14 +29,14 @@ public class TransferenciaBancaria extends MetodoDePago {
 	
 	@Override
     protected String ejecutarTransaccion(Pedido pedido, double monto) {
-		return api.ejecutarTransferencia(pedido.getUsuario().getCbu(), monto, isEsInmediata(), getFechaAProgramar()); //null fecha si es inmediata
+		return api.ejecutarTransferencia(pedido.getUsuario().getCbu(), monto, esInmediata(), getFechaAProgramar()); //null fecha si es inmediata
 	}
 	
 	@Override
 	protected void notificarResultado(Pedido pedido, String códigoTransacción, double monto) {
 		super.notificarResultado(pedido, códigoTransacción, monto);
 		ComprobanteDeTransferencia cTransferencia;
-		if (isEsInmediata()) {
+		if (esInmediata()) {
 	    	cTransferencia = new ComprobanteDeTransferencia(
 	    			pedido.getUsuario().getCbu(), códigoTransacción, monto, LocalDate.now());
 		} else { 
@@ -47,7 +47,7 @@ public class TransferenciaBancaria extends MetodoDePago {
 		pedido.getUsuario().agregarComprobante(cTransferencia);
     }
 
-	public boolean isEsInmediata() {
+	public boolean esInmediata() {
 		return esInmediata;
 	}
 
